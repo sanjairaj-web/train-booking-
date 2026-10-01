@@ -1,0 +1,548 @@
+<div class="ticket-page">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="ticket-header">
+
+        <div class="ticket-brand">
+
+            <div class="brand-icon">
+                🚆
+            </div>
+
+            <div>
+                <h2>RailBook</h2>
+
+                <span>
+                    Train Ticket Booking
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="booking-status">
+
+            <span class="status-dot"></span>
+
+            <strong>
+                Booking Confirmed
+            </strong>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         SUCCESS BANNER
+    ====================================================== -->
+
+    <section class="success-banner">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <div>
+
+            <span class="success-label">
+                BOOKING SUCCESSFUL
+            </span>
+
+            <h1>
+                Your ticket is confirmed!
+            </h1>
+
+            <p>
+                Your train ticket has been successfully booked.
+                Keep your PNR number handy for your journey.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MAIN TICKET
+    ====================================================== -->
+
+    <main class="ticket-container">
+
+
+        <!-- =================================================
+             PNR CARD
+        ================================================== -->
+
+        <section class="pnr-card">
+
+            <div>
+
+                <span class="section-label">
+                    PNR NUMBER
+                </span>
+
+                <strong id="pnrNumber">
+                    RB0000000000
+                </strong>
+
+            </div>
+
+
+            <div class="confirmed-badge">
+
+                <span>
+                    ✓
+                </span>
+
+                Confirmed
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             JOURNEY DETAILS
+        ================================================== -->
+
+        <section class="ticket-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        JOURNEY DETAILS
+                    </span>
+
+                    <h2>
+                        Your train journey
+                    </h2>
+
+                </div>
+
+                <div class="journey-date-box">
+
+                    <span>
+                        JOURNEY DATE
+                    </span>
+
+                    <strong id="journeyDate">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="journey-card">
+
+
+                <!-- TRAIN -->
+
+                <div class="train-info">
+
+                    <div class="train-icon">
+                        🚆
+                    </div>
+
+                    <div>
+
+                        <h3 id="trainName">
+                            Train
+                        </h3>
+
+                        <span id="trainNumber">
+                            Train No. -
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ROUTE -->
+
+                <div class="route-container">
+
+
+                    <div class="route-station">
+
+                        <strong id="fromStation">
+                            Chennai
+                        </strong>
+
+                        <span id="departureTime">
+                            -
+                        </span>
+
+                        <small>
+                            Departure
+                        </small>
+
+                    </div>
+
+
+                    <div class="route-middle">
+
+                        <span id="journeyDuration">
+                            -
+                        </span>
+
+                        <div class="route-line">
+
+                            <span></span>
+
+                            <div></div>
+
+                            <span></span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="route-station destination">
+
+                        <strong id="toStation">
+                            Coimbatore
+                        </strong>
+
+                        <span id="arrivalTime">
+                            -
+                        </span>
+
+                        <small>
+                            Arrival
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PASSENGER DETAILS
+        ================================================== -->
+
+        <section class="ticket-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        PASSENGER DETAILS
+                    </span>
+
+                    <h2>
+                        Passenger information
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="passengerDetails"
+                class="passenger-details"
+            ></div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             TRAVEL DETAILS
+        ================================================== -->
+
+        <section class="ticket-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        TRAVEL DETAILS
+                    </span>
+
+                    <h2>
+                        Seat & coach information
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="travel-grid">
+
+
+                <div class="detail-card">
+
+                    <span>
+                        COACH
+                    </span>
+
+                    <strong id="coachNumber">
+                        S1
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <span>
+                        SEAT
+                    </span>
+
+                    <strong id="seatNumber">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <span>
+                        CLASS
+                    </span>
+
+                    <strong id="travelClass">
+                        Sleeper
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <span>
+                        BOOKING DATE
+                    </span>
+
+                    <strong id="bookingDate">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PAYMENT DETAILS
+        ================================================== -->
+
+        <section class="ticket-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        PAYMENT DETAILS
+                    </span>
+
+                    <h2>
+                        Fare summary
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="payment-card">
+
+
+                <div class="fare-row">
+
+                    <span>
+                        Base Fare
+                    </span>
+
+                    <strong id="baseFare">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-row">
+
+                    <span>
+                        Convenience Fee
+                    </span>
+
+                    <strong id="convenienceFee">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-row">
+
+                    <span>
+                        GST
+                    </span>
+
+                    <strong id="gst">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-divider"></div>
+
+
+                <div class="total-row">
+
+                    <span>
+                        Total Paid
+                    </span>
+
+                    <strong id="totalFare">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PAYMENT CONFIRMATION
+        ================================================== -->
+
+        <section class="payment-confirmation">
+
+            <div class="payment-confirmation-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <strong>
+                    Payment Successful
+                </strong>
+
+                <span id="paymentMethod">
+                    UPI
+                </span>
+
+            </div>
+
+
+            <div class="payment-meta">
+
+                <span id="transactionId">
+                    Transaction ID: -
+                </span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ACTIONS
+        ================================================== -->
+
+        <section class="ticket-actions">
+
+            <button
+                id="downloadBtn"
+                class="primary-btn"
+                type="button"
+            >
+
+                <span>
+                    ↓
+                </span>
+
+                Download PDF
+
+            </button>
+
+
+            <button
+                id="printBtn"
+                class="secondary-btn"
+                type="button"
+            >
+
+                <span>
+                    🖨
+                </span>
+
+                Print Ticket
+
+            </button>
+
+
+            <button
+                id="homeBtn"
+                class="secondary-btn"
+                type="button"
+            >
+
+                <span>
+                    ←
+                </span>
+
+                New Booking
+
+            </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SECURITY NOTE
+        ================================================== -->
+
+        <div class="secure-note">
+
+            🔒
+
+            <span>
+                This is a digitally generated RailBook ticket.
+                Please carry a valid ID proof during your journey.
+            </span>
+
+        </div>
+
+
+    </main>
+
+</div>
