@@ -1,17 +1,24 @@
 import "./seat.css";
+
 import seatHTML from "./seat.html";
 
 import { navigate } from "../router.js";
 
 
+// =========================================================
+// CONFIG
+// =========================================================
+
 const MAX_SEATS = 4;
 
-const BASE_FARE = 550;
-
-const CONVENIENCE_FEE = 20;
+const CONVENIENCE_FEE = 30;
 
 const GST_RATE = 0.05;
 
+
+// =========================================================
+// SHOW SEAT PAGE
+// =========================================================
 
 export function showSeat(app) {
 
@@ -41,9 +48,7 @@ export function showSeat(app) {
         document.getElementById("arrivalTime");
 
     const journeyDuration =
-        document.getElementById(
-            "journeyDuration"
-        );
+        document.getElementById("journeyDuration");
 
     const journeyDate =
         document.getElementById("journeyDate");
@@ -54,6 +59,9 @@ export function showSeat(app) {
     const summaryTo =
         document.getElementById("summaryTo");
 
+    const maxPassengers =
+        document.getElementById("maxPassengers");
+
     const coachList =
         document.getElementById("coachList");
 
@@ -63,71 +71,48 @@ export function showSeat(app) {
     const seatMap =
         document.getElementById("seatMap");
 
-    const selectedSeatsContainer =
-        document.getElementById(
-            "selectedSeats"
-        );
-
     const selectedCount =
-        document.getElementById(
-            "selectedCount"
-        );
+        document.getElementById("selectedCount");
+
+    const selectedSeatsContainer =
+        document.getElementById("selectedSeats");
 
     const baseFare =
         document.getElementById("baseFare");
 
     const convenienceFee =
-        document.getElementById(
-            "convenienceFee"
-        );
+        document.getElementById("convenienceFee");
 
     const gst =
         document.getElementById("gst");
 
     const totalFare =
-        document.getElementById(
-            "totalFare"
-        );
+        document.getElementById("totalFare");
 
     const continueBtn =
-        document.getElementById(
-            "continueBtn"
-        );
-
-    const maxPassengers =
-        document.getElementById(
-            "maxPassengers"
-        );
+        document.getElementById("continueBtn");
 
     const timerElement =
         document.getElementById("timer");
 
 
     // =====================================================
-    // GET TRAIN
+    // LOAD DATA
     // =====================================================
 
     const selectedTrain =
         JSON.parse(
-            localStorage.getItem(
-                "selectedTrain"
-            )
+            localStorage.getItem("selectedTrain")
         );
 
 
     const selectedJourney =
         JSON.parse(
-            localStorage.getItem(
-                "selectedJourney"
-            )
+            localStorage.getItem("selectedJourney")
         );
 
 
     if (!selectedTrain) {
-
-        alert(
-            "Please select a train first."
-        );
 
         navigate(
             "search",
@@ -137,6 +122,24 @@ export function showSeat(app) {
         return;
 
     }
+
+
+    // =====================================================
+    // JOURNEY DATA
+    // =====================================================
+
+    const journey =
+        selectedJourney || {};
+
+
+    const passengerLimit =
+        Number(
+            journey.passengers
+        ) || MAX_SEATS;
+
+
+    maxPassengers.textContent =
+        passengerLimit;
 
 
     // =====================================================
@@ -179,18 +182,21 @@ export function showSeat(app) {
         selectedTrain.to;
 
 
-    if (selectedJourney) {
-
-        journeyDate.textContent =
-            formatDate(
-                selectedJourney.journeyDate
-            );
+    journeyDate.textContent =
+        formatDisplayDate(
+            journey.journeyDate
+        );
 
 
-        maxPassengers.textContent =
-            selectedJourney.passengers || MAX_SEATS;
+    // =====================================================
+    // STATE
+    // =====================================================
 
-    }
+    let currentCoach = "S1";
+
+    let selectedSeats = [];
+
+    let timerSeconds = 300;
 
 
     // =====================================================
@@ -198,271 +204,116 @@ export function showSeat(app) {
     // =====================================================
 
     const coaches = [
-
-        {
-            id: "coach-s1",
-            number: "S1",
-            classType: "SLEEPER"
-        },
-
-        {
-            id: "coach-s2",
-            number: "S2",
-            classType: "SLEEPER"
-        },
-
-        {
-            id: "coach-s3",
-            number: "S3",
-            classType: "SLEEPER"
-        },
-
-        {
-            id: "coach-s4",
-            number: "S4",
-            classType: "SLEEPER"
-        }
-
+        "S1",
+        "S2",
+        "S3",
+        "S4"
     ];
 
 
-    let currentCoach =
-        coaches[0];
+    renderCoaches();
 
+    renderSeats();
 
-    let selectedSeats = [];
+    updateSummary();
 
 
     // =====================================================
-    // RENDER COACH BUTTONS
+    // RENDER COACHES
     // =====================================================
 
-    coaches.forEach(
-        coach => {
+    function renderCoaches() {
 
-            const button =
-                document.createElement(
-                    "button"
-                );
+        coachList.innerHTML = "";
 
 
-            button.className =
-                "coach-btn";
+        coaches.forEach(
+            coach => {
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
 
 
-            button.textContent =
-                coach.number;
+                button.type =
+                    "button";
 
 
-            if (
-                coach.id ===
-                currentCoach.id
-            ) {
-
-                button.classList.add(
-                    "active"
-                );
-
-            }
+                button.className =
+                    "coach-btn";
 
 
-            button.addEventListener(
-                "click",
-                () => {
-
-                    currentCoach =
-                        coach;
-
-
-                    document
-                        .querySelectorAll(
-                            ".coach-btn"
-                        )
-                        .forEach(
-                            btn =>
-                                btn.classList.remove(
-                                    "active"
-                                )
-                        );
-
+                if (
+                    coach ===
+                    currentCoach
+                ) {
 
                     button.classList.add(
                         "active"
                     );
 
-
-                    renderSeatMap();
-
                 }
-            );
 
 
-            coachList.appendChild(
-                button
-            );
-
-        }
-    );
+                button.textContent =
+                    coach;
 
 
-    // =====================================================
-    // SEAT DATA
-    // =====================================================
+                button.addEventListener(
+                    "click",
+                    () => {
 
-    function createSeats() {
-
-        const seats = [];
-
-
-        for (
-            let number = 1;
-            number <= 40;
-            number++
-        ) {
-
-            let berthType;
+                        currentCoach =
+                            coach;
 
 
-            const position =
-                (number - 1) % 8;
+                        activeCoach.textContent =
+                            coach;
 
 
-            if (
-                position === 0 ||
-                position === 3
-            ) {
+                        renderCoaches();
 
-                berthType =
-                    "LOWER";
+                        renderSeats();
 
-            } else if (
-                position === 1 ||
-                position === 4
-            ) {
+                    }
+                );
 
-                berthType =
-                    "MIDDLE";
 
-            } else if (
-                position === 2 ||
-                position === 5
-            ) {
-
-                berthType =
-                    "UPPER";
-
-            } else if (
-                position === 6
-            ) {
-
-                berthType =
-                    "SIDE_LOWER";
-
-            } else {
-
-                berthType =
-                    "SIDE_UPPER";
+                coachList.appendChild(
+                    button
+                );
 
             }
-
-
-            seats.push({
-
-                id:
-                    crypto.randomUUID(),
-
-                coach_id:
-                    currentCoach.id,
-
-                seat_number:
-                    number,
-
-                berth_type:
-                    berthType,
-
-                status:
-                    getRandomStatus(
-                        number
-                    )
-
-            });
-
-        }
-
-
-        return seats;
+        );
 
     }
 
 
     // =====================================================
-    // MOCK OCCUPIED / HELD
+    // RENDER SEATS
     // =====================================================
 
-    function getRandomStatus(
-        number
-    ) {
-
-        /*
-         * In production this comes from:
-         *
-         * GET
-         * /api/v1/trains/:id/coaches
-         *
-         * Here we simulate the database.
-         */
-
-        if (
-            [4, 8, 13, 19, 27, 35]
-                .includes(number)
-        ) {
-
-            return "BOOKED";
-
-        }
-
-
-        if (
-            [10, 22, 31]
-                .includes(number)
-        ) {
-
-            return "HELD";
-
-        }
-
-
-        return "AVAILABLE";
-
-    }
-
-
-    // =====================================================
-    // RENDER SEAT MAP
-    // =====================================================
-
-    function renderSeatMap() {
+    function renderSeats() {
 
         seatMap.innerHTML = "";
 
 
-        activeCoach.textContent =
-            currentCoach.number;
+        const occupiedSeats =
+            getOccupiedSeats(
+                currentCoach
+            );
 
 
-        const seats =
-            createSeats();
+        const heldSeats =
+            getHeldSeats(
+                currentCoach
+            );
 
-
-        /*
-         * 40 seats
-         *
-         * 4 rows × 10 seats
-         */
 
         for (
-            let row = 0;
-            row < 10;
+            let row = 1;
+            row <= 12;
             row++
         ) {
 
@@ -487,7 +338,7 @@ export function showSeat(app) {
 
 
             rowNumber.textContent =
-                row + 1;
+                row;
 
 
             rowElement.appendChild(
@@ -495,96 +346,50 @@ export function showSeat(app) {
             );
 
 
-            const rowSeats =
-                seats.slice(
-                    row * 4,
-                    row * 4 + 4
+            // A1
+
+            addSeat(
+                rowElement,
+                `${currentCoach}-${row}A`,
+                occupiedSeats,
+                heldSeats
+            );
+
+
+            // A2
+
+            addSeat(
+                rowElement,
+                `${currentCoach}-${row}B`,
+                occupiedSeats,
+                heldSeats
+            );
+
+
+            // AISLE
+
+            const aisle =
+                document.createElement(
+                    "div"
                 );
 
 
-            rowSeats.forEach(
-                (seat, index) => {
-
-                    if (index === 2) {
-
-                        const aisle =
-                            document.createElement(
-                                "div"
-                            );
+            aisle.className =
+                "aisle";
 
 
-                        aisle.className =
-                            "aisle";
+            rowElement.appendChild(
+                aisle
+            );
 
 
-                        rowElement.appendChild(
-                            aisle
-                        );
+            // A3
 
-                    }
-
-
-                    const seatElement =
-                        document.createElement(
-                            "button"
-                        );
-
-
-                    seatElement.className =
-                        "seat";
-
-
-                    seatElement.textContent =
-                        seat.seat_number;
-
-
-                    seatElement.dataset.id =
-                        seat.id;
-
-
-                    seatElement.dataset.number =
-                        seat.seat_number;
-
-
-                    seatElement.dataset.berth =
-                        seat.berth_type;
-
-
-                    seatElement.dataset.status =
-                        seat.status;
-
-
-                    applySeatStatus(
-                        seatElement,
-                        seat
-                    );
-
-
-                    if (
-                        seat.status ===
-                        "AVAILABLE"
-                    ) {
-
-                        seatElement.addEventListener(
-                            "click",
-                            () => {
-
-                                toggleSeat(
-                                    seat,
-                                    seatElement
-                                );
-
-                            }
-                        );
-
-                    }
-
-
-                    rowElement.appendChild(
-                        seatElement
-                    );
-
-                }
+            addSeat(
+                rowElement,
+                `${currentCoach}-${row}C`,
+                occupiedSeats,
+                heldSeats
             );
 
 
@@ -598,124 +403,164 @@ export function showSeat(app) {
 
 
     // =====================================================
-    // APPLY STATUS
+    // ADD SEAT
     // =====================================================
 
-    function applySeatStatus(
-        element,
-        seat
+    function addSeat(
+        rowElement,
+        seatId,
+        occupiedSeats,
+        heldSeats
     ) {
 
-        element.classList.add(
-            seat.status.toLowerCase()
+        const seat =
+            document.createElement(
+                "button"
+            );
+
+
+        seat.type =
+            "button";
+
+
+        seat.className =
+            "seat";
+
+
+        const shortName =
+            seatId.split("-")[1];
+
+
+        seat.textContent =
+            shortName;
+
+
+        // OCCUPIED
+
+        if (
+            occupiedSeats.includes(
+                seatId
+            )
+        ) {
+
+            seat.classList.add(
+                "occupied"
+            );
+
+
+            seat.disabled =
+                true;
+
+        }
+
+
+        // HELD
+
+        else if (
+            heldSeats.includes(
+                seatId
+            )
+        ) {
+
+            seat.classList.add(
+                "held"
+            );
+
+
+            seat.disabled =
+                true;
+
+        }
+
+
+        // SELECTED
+
+        else if (
+            selectedSeats.includes(
+                seatId
+            )
+        ) {
+
+            seat.classList.add(
+                "selected"
+            );
+
+        }
+
+
+        seat.addEventListener(
+            "click",
+            () => {
+
+                toggleSeat(
+                    seatId
+                );
+
+            }
         );
 
 
-        if (
-            seat.status ===
-            "BOOKED"
-        ) {
-
-            element.disabled = true;
-
-            element.title =
-                `${seat.seat_number} - Booked`;
-
-        }
-
-
-        if (
-            seat.status ===
-            "HELD"
-        ) {
-
-            element.disabled = true;
-
-            element.title =
-                `${seat.seat_number} - Temporarily held`;
-
-        }
+        rowElement.appendChild(
+            seat
+        );
 
     }
 
 
     // =====================================================
-    // SELECT / DESELECT
+    // TOGGLE SEAT
     // =====================================================
 
     function toggleSeat(
-        seat,
-        element
+        seatId
     ) {
 
-        const existingIndex =
-            selectedSeats.findIndex(
-                item =>
-                    item.id === seat.id
+        const index =
+            selectedSeats.indexOf(
+                seatId
             );
 
 
-        // DESELECT
+        // REMOVE
 
         if (
-            existingIndex !== -1
+            index !== -1
         ) {
 
             selectedSeats.splice(
-                existingIndex,
+                index,
                 1
             );
 
+        }
 
-            element.classList.remove(
-                "selected"
+
+        // ADD
+
+        else {
+
+            if (
+                selectedSeats.length >=
+                passengerLimit
+            ) {
+
+                alert(
+                    `You can select maximum ${passengerLimit} seats.`
+                );
+
+                return;
+
+            }
+
+
+            selectedSeats.push(
+                seatId
             );
-
-
-            updateSummary();
-
-            return;
 
         }
 
 
-        // MAX LIMIT
-
-        const maxAllowed =
-            selectedJourney?.passengers ||
-            MAX_SEATS;
-
-
-        if (
-            selectedSeats.length >=
-            maxAllowed
-        ) {
-
-            alert(
-                `You can select maximum ${maxAllowed} seats.`
-            );
-
-            return;
-
-        }
-
-
-        // SELECT
-
-        selectedSeats.push({
-
-            ...seat,
-
-            coach_number:
-                currentCoach.number
-
-        });
-
-
-        element.classList.add(
-            "selected"
-        );
-
+        renderSeats();
 
         updateSummary();
 
@@ -723,7 +568,7 @@ export function showSeat(app) {
 
 
     // =====================================================
-    // SUMMARY
+    // UPDATE SUMMARY
     // =====================================================
 
     function updateSummary() {
@@ -744,126 +589,102 @@ export function showSeat(app) {
             "";
 
 
-        if (!count) {
+        if (
+            count === 0
+        ) {
 
-            selectedSeatsContainer.innerHTML =
-                `
+            selectedSeatsContainer.innerHTML = `
+
                 <div class="no-seat">
                     No seats selected
                 </div>
-                `;
 
-            continueBtn.disabled =
-                true;
-
-        } else {
-
-            selectedSeats.forEach(
-                seat => {
-
-                    const chip =
-                        document.createElement(
-                            "span"
-                        );
-
-
-                    chip.className =
-                        "selected-seat";
-
-
-                    chip.textContent =
-                        `${seat.coach_number} - ${seat.seat_number}`;
-
-
-                    chip.title =
-                        seat.berth_type;
-
-
-                    selectedSeatsContainer
-                        .appendChild(
-                            chip
-                        );
-
-                }
-            );
-
-
-            continueBtn.disabled =
-                false;
+            `;
 
         }
+
+
+        selectedSeats.forEach(
+            seat => {
+
+                const element =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                element.className =
+                    "selected-seat";
+
+
+                element.textContent =
+                    seat;
+
+
+                selectedSeatsContainer.appendChild(
+                    element
+                );
+
+            }
+        );
 
 
         // =================================================
         // FARE
         // =================================================
 
-        const farePerSeat =
-            selectedTrain.fare ||
-            BASE_FARE;
+        const fare =
+            Number(
+                selectedTrain.fare
+            ) || 0;
 
 
         const base =
-            farePerSeat * count;
+            fare *
+            count;
 
 
-        const convenience =
+        const fee =
             count > 0
                 ? CONVENIENCE_FEE
                 : 0;
 
 
-        const taxable =
-            base +
-            convenience;
-
-
-        const gstAmount =
-            taxable *
-            GST_RATE;
+        const tax =
+            Math.round(
+                (base + fee) *
+                GST_RATE
+            );
 
 
         const total =
-            taxable +
-            gstAmount;
+            base +
+            fee +
+            tax;
 
 
         baseFare.textContent =
-            formatCurrency(base);
+            `₹${base}`;
 
 
         convenienceFee.textContent =
-            formatCurrency(
-                convenience
-            );
+            `₹${fee}`;
 
 
         gst.textContent =
-            formatCurrency(
-                gstAmount
-            );
+            `₹${tax}`;
 
 
         totalFare.textContent =
-            formatCurrency(
-                total
-            );
+            `₹${total}`;
 
 
-        // Save current selection
+        // =================================================
+        // BUTTON
+        // =================================================
 
-        localStorage.setItem(
-            "selectedSeats",
-            JSON.stringify(
-                selectedSeats
-            )
-        );
-
-
-        localStorage.setItem(
-            "totalFare",
-            total.toFixed(2)
-        );
+        continueBtn.disabled =
+            count === 0;
 
     }
 
@@ -877,7 +698,7 @@ export function showSeat(app) {
         () => {
 
             if (
-                !selectedSeats.length
+                selectedSeats.length === 0
             ) {
 
                 return;
@@ -885,22 +706,87 @@ export function showSeat(app) {
             }
 
 
-            /*
-             * In production:
-             *
-             * POST
-             * /api/v1/seats/hold
-             *
-             * The backend should create a
-             * temporary HELD reservation.
-             */
+            const fare =
+                Number(
+                    selectedTrain.fare
+                ) || 0;
 
+
+            const base =
+                fare *
+                selectedSeats.length;
+
+
+            const fee =
+                CONVENIENCE_FEE;
+
+
+            const tax =
+                Math.round(
+                    (base + fee) *
+                    GST_RATE
+                );
+
+
+            const total =
+                base +
+                fee +
+                tax;
+
+
+            // Save selected seats
 
             localStorage.setItem(
-                "heldSeats",
+                "selectedSeats",
                 JSON.stringify(
                     selectedSeats
                 )
+            );
+
+
+            localStorage.setItem(
+                "seat",
+                JSON.stringify(
+                    selectedSeats
+                )
+            );
+
+
+            localStorage.setItem(
+                "totalFare",
+                String(total)
+            );
+
+
+            localStorage.setItem(
+                "seatBooking",
+                JSON.stringify({
+
+                    train:
+                        selectedTrain,
+
+                    journey:
+                        selectedJourney,
+
+                    seats:
+                        selectedSeats,
+
+                    baseFare:
+                        base,
+
+                    convenienceFee:
+                        fee,
+
+                    gst:
+                        tax,
+
+                    totalFare:
+                        total,
+
+                    coach:
+                        currentCoach
+
+                })
             );
 
 
@@ -917,19 +803,15 @@ export function showSeat(app) {
     // TIMER
     // =====================================================
 
-    let remainingSeconds =
-        5 * 60;
-
-
     const timer =
         setInterval(
             () => {
 
-                remainingSeconds--;
+                timerSeconds--;
 
 
                 if (
-                    remainingSeconds <= 0
+                    timerSeconds <= 0
                 ) {
 
                     clearInterval(
@@ -941,17 +823,13 @@ export function showSeat(app) {
                         "00:00";
 
 
+                    continueBtn.disabled =
+                        true;
+
+
                     alert(
                         "Your seat hold has expired."
                     );
-
-
-                    localStorage.removeItem(
-                        "selectedSeats"
-                    );
-
-
-                    location.reload();
 
 
                     return;
@@ -961,19 +839,16 @@ export function showSeat(app) {
 
                 const minutes =
                     Math.floor(
-                        remainingSeconds /
-                        60
+                        timerSeconds / 60
                     );
 
 
                 const seconds =
-                    remainingSeconds %
-                    60;
+                    timerSeconds % 60;
 
 
                 timerElement.textContent =
                     `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-
 
             },
             1000
@@ -981,35 +856,105 @@ export function showSeat(app) {
 
 
     // =====================================================
-    // INITIAL RENDER
+    // OCCUPIED SEATS
     // =====================================================
 
-    renderSeatMap();
-
-
-    // =====================================================
-    // HELPERS
-    // =====================================================
-
-    function formatCurrency(
-        amount
+    function getOccupiedSeats(
+        coach
     ) {
 
-        return (
-            "₹" +
-            Math.round(amount)
-        );
+        const occupied = {
+
+            S1: [
+                "S1-1A",
+                "S1-2B",
+                "S1-4C",
+                "S1-6A",
+                "S1-8B",
+                "S1-10C"
+            ],
+
+            S2: [
+                "S2-2A",
+                "S2-3C",
+                "S2-5B",
+                "S2-7A",
+                "S2-9C"
+            ],
+
+            S3: [
+                "S3-1B",
+                "S3-4A",
+                "S3-6C",
+                "S3-8B",
+                "S3-11A"
+            ],
+
+            S4: [
+                "S4-2C",
+                "S4-5A",
+                "S4-7B",
+                "S4-9C",
+                "S4-12A"
+            ]
+
+        };
+
+
+        return occupied[coach] || [];
 
     }
 
 
-    function formatDate(
+    // =====================================================
+    // HELD SEATS
+    // =====================================================
+
+    function getHeldSeats(
+        coach
+    ) {
+
+        const held = {
+
+            S1: [
+                "S1-3A",
+                "S1-7C"
+            ],
+
+            S2: [
+                "S2-4B",
+                "S2-10A"
+            ],
+
+            S3: [
+                "S3-3C",
+                "S3-9B"
+            ],
+
+            S4: [
+                "S4-1A",
+                "S4-8C"
+            ]
+
+        };
+
+
+        return held[coach] || [];
+
+    }
+
+
+    // =====================================================
+    // DATE FORMAT
+    // =====================================================
+
+    function formatDisplayDate(
         value
     ) {
 
         if (!value) {
 
-            return "Not selected";
+            return "Today";
 
         }
 
@@ -1020,9 +965,21 @@ export function showSeat(app) {
             );
 
 
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return value;
+
+        }
+
+
         return date.toLocaleDateString(
             "en-IN",
             {
+                weekday: "short",
                 day: "numeric",
                 month: "short",
                 year: "numeric"

@@ -18,12 +18,14 @@ const isLoggedIn =
 // INITIAL NAVIGATION
 // ==============================
 
-if (isLoggedIn === "true") {
+// if (isLoggedIn === "true") {
 
-    navigate("search", app);
+//     navigate("search", app);
 
-} else {
+// } else {
 
-    navigate("login", app);
+//     navigate("login", app);
 
-}
+// }
+
+navigate("login", app);

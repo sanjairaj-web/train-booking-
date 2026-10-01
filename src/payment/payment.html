@@ -1,0 +1,704 @@
+<div class="payment-page">
+
+    <!-- HEADER -->
+    <header class="payment-header">
+
+        <div class="payment-brand">
+            <div class="brand-icon">🚆</div>
+
+            <div>
+                <h2>RailBook</h2>
+                <span>Train Ticket Booking</span>
+            </div>
+        </div>
+
+        <!-- BOOKING STEPS -->
+        <div class="booking-step">
+
+            <div class="step completed">
+                <span>✓</span>
+                Search
+            </div>
+
+            <div class="step-line completed"></div>
+
+            <div class="step completed">
+                <span>✓</span>
+                Seats
+            </div>
+
+            <div class="step-line completed"></div>
+
+            <div class="step completed">
+                <span>✓</span>
+                Passenger
+            </div>
+
+            <div class="step-line active"></div>
+
+            <div class="step active">
+                <span>4</span>
+                Payment
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="payment-container">
+
+        <!-- LEFT -->
+        <section class="payment-main">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-label">
+                        SECURE PAYMENT
+                    </span>
+
+                    <h1>
+                        Complete your payment
+                    </h1>
+
+                    <p>
+                        Choose your preferred payment method
+                        to confirm your train ticket.
+                    </p>
+                </div>
+
+                <div class="secure-badge">
+                    🔒 Secure Checkout
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT METHODS -->
+            <div class="payment-card">
+
+                <div class="payment-card-header">
+
+                    <div>
+                        <span class="section-label">
+                            PAYMENT METHOD
+                        </span>
+
+                        <h2>
+                            Select a payment option
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <div class="payment-methods">
+
+                    <!-- UPI -->
+                    <button
+                        class="payment-method active"
+                        data-method="upi"
+                    >
+
+                        <div class="method-icon">
+                            UPI
+                        </div>
+
+                        <div class="method-info">
+
+                            <strong>
+                                UPI
+                            </strong>
+
+                            <span>
+                                Google Pay, PhonePe, Paytm & more
+                            </span>
+
+                        </div>
+
+                        <span class="method-radio"></span>
+
+                    </button>
+
+
+                    <!-- CARD -->
+                    <button
+                        class="payment-method"
+                        data-method="card"
+                    >
+
+                        <div class="method-icon">
+                            💳
+                        </div>
+
+                        <div class="method-info">
+
+                            <strong>
+                                Credit / Debit Card
+                            </strong>
+
+                            <span>
+                                Visa, Mastercard, RuPay
+                            </span>
+
+                        </div>
+
+                        <span class="method-radio"></span>
+
+                    </button>
+
+
+                    <!-- NET BANKING -->
+                    <button
+                        class="payment-method"
+                        data-method="netbanking"
+                    >
+
+                        <div class="method-icon">
+                            🏦
+                        </div>
+
+                        <div class="method-info">
+
+                            <strong>
+                                Net Banking
+                            </strong>
+
+                            <span>
+                                Pay using your bank account
+                            </span>
+
+                        </div>
+
+                        <span class="method-radio"></span>
+
+                    </button>
+
+
+                    <!-- WALLET -->
+                    <button
+                        class="payment-method"
+                        data-method="wallet"
+                    >
+
+                        <div class="method-icon">
+                            👛
+                        </div>
+
+                        <div class="method-info">
+
+                            <strong>
+                                Wallet
+                            </strong>
+
+                            <span>
+                                Pay using supported wallets
+                            </span>
+
+                        </div>
+
+                        <span class="method-radio"></span>
+
+                    </button>
+
+                </div>
+
+
+                <!-- UPI FORM -->
+                <div
+                    id="upiForm"
+                    class="payment-form"
+                >
+
+                    <div class="form-title">
+                        <strong>
+                            Enter UPI ID
+                        </strong>
+
+                        <span>
+                            Example: name@upi
+                        </span>
+                    </div>
+
+                    <div class="input-group">
+
+                        <input
+                            type="text"
+                            id="upiId"
+                            placeholder="Enter your UPI ID"
+                            autocomplete="off"
+                        >
+
+                        <button
+                            id="verifyUpiBtn"
+                            type="button"
+                        >
+                            Verify
+                        </button>
+
+                    </div>
+
+                    <small
+                        id="upiMessage"
+                        class="input-message"
+                    ></small>
+
+                </div>
+
+
+                <!-- CARD FORM -->
+                <div
+                    id="cardForm"
+                    class="payment-form hidden"
+                >
+
+                    <div class="form-title">
+                        <strong>
+                            Card Details
+                        </strong>
+
+                        <span>
+                            Your card information is encrypted
+                        </span>
+                    </div>
+
+
+                    <div class="card-preview">
+
+                        <div class="card-top">
+                            <span>RailBook</span>
+                            <span>💳</span>
+                        </div>
+
+                        <div
+                            id="cardPreviewNumber"
+                            class="card-number"
+                        >
+                            •••• •••• •••• ••••
+                        </div>
+
+                        <div class="card-bottom">
+
+                            <span id="cardPreviewName">
+                                CARD HOLDER
+                            </span>
+
+                            <span id="cardPreviewExpiry">
+                                MM/YY
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="field full">
+
+                            <label>
+                                Card Number
+                            </label>
+
+                            <input
+                                id="cardNumber"
+                                type="text"
+                                maxlength="19"
+                                placeholder="1234 5678 9012 3456"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                Card Holder Name
+                            </label>
+
+                            <input
+                                id="cardName"
+                                type="text"
+                                placeholder="Name on card"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                Expiry
+                            </label>
+
+                            <input
+                                id="cardExpiry"
+                                type="text"
+                                maxlength="5"
+                                placeholder="MM/YY"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                CVV
+                            </label>
+
+                            <input
+                                id="cardCvv"
+                                type="password"
+                                maxlength="3"
+                                placeholder="•••"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NET BANKING -->
+                <div
+                    id="netbankingForm"
+                    class="payment-form hidden"
+                >
+
+                    <div class="form-title">
+                        <strong>
+                            Select your bank
+                        </strong>
+
+                        <span>
+                            You will be redirected to your bank
+                        </span>
+                    </div>
+
+
+                    <select id="bankSelect">
+
+                        <option value="">
+                            Select Bank
+                        </option>
+
+                        <option value="sbi">
+                            State Bank of India
+                        </option>
+
+                        <option value="hdfc">
+                            HDFC Bank
+                        </option>
+
+                        <option value="icici">
+                            ICICI Bank
+                        </option>
+
+                        <option value="axis">
+                            Axis Bank
+                        </option>
+
+                        <option value="kotak">
+                            Kotak Mahindra Bank
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- WALLET -->
+                <div
+                    id="walletForm"
+                    class="payment-form hidden"
+                >
+
+                    <div class="form-title">
+                        <strong>
+                            Select Wallet
+                        </strong>
+
+                        <span>
+                            Choose your preferred wallet
+                        </span>
+                    </div>
+
+
+                    <div class="wallet-options">
+
+                        <button
+                            type="button"
+                            class="wallet-option"
+                            data-wallet="paytm"
+                        >
+                            Paytm
+                        </button>
+
+                        <button
+                            type="button"
+                            class="wallet-option"
+                            data-wallet="phonepe"
+                        >
+                            PhonePe
+                        </button>
+
+                        <button
+                            type="button"
+                            class="wallet-option"
+                            data-wallet="amazon"
+                        >
+                            Amazon Pay
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECURITY -->
+            <div class="security-card">
+
+                <div class="security-icon">
+                    🔐
+                </div>
+
+                <div>
+
+                    <strong>
+                        Your payment is secure
+                    </strong>
+
+                    <p>
+                        Your payment information is protected
+                        using secure encryption.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SUMMARY -->
+        <aside class="payment-summary">
+
+            <div class="summary-header">
+
+                <div>
+                    <span class="section-label">
+                        BOOKING SUMMARY
+                    </span>
+
+                    <h2>
+                        Your journey
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <!-- TRAIN -->
+            <div class="summary-train">
+
+                <div class="summary-train-icon">
+                    🚆
+                </div>
+
+                <div>
+
+                    <strong id="summaryTrainName">
+                        Train
+                    </strong>
+
+                    <span id="summaryTrainNumber">
+                        Train No.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ROUTE -->
+            <div class="summary-route">
+
+                <div>
+
+                    <strong id="summaryFrom">
+                        Chennai
+                    </strong>
+
+                    <span id="summaryDeparture">
+                        Departure
+                    </span>
+
+                </div>
+
+
+                <div class="summary-route-line">
+                    →
+                </div>
+
+
+                <div>
+
+                    <strong id="summaryTo">
+                        Coimbatore
+                    </strong>
+
+                    <span id="summaryArrival">
+                        Arrival
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- JOURNEY INFO -->
+            <div class="summary-info">
+
+                <div>
+                    <span>Journey Date</span>
+                    <strong id="summaryDate">Today</strong>
+                </div>
+
+                <div>
+                    <span>Coach</span>
+                    <strong id="summaryCoach">S1</strong>
+                </div>
+
+                <div>
+                    <span>Seats</span>
+                    <strong id="summarySeats">-</strong>
+                </div>
+
+                <div>
+                    <span>Passengers</span>
+                    <strong id="summaryPassengers">1</strong>
+                </div>
+
+            </div>
+
+
+            <!-- FARE -->
+            <div class="fare-section">
+
+                <div class="fare-row">
+
+                    <span>
+                        Base Fare
+                    </span>
+
+                    <strong id="baseFare">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-row">
+
+                    <span>
+                        Convenience Fee
+                    </span>
+
+                    <strong id="convenienceFee">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-row">
+
+                    <span>
+                        GST
+                    </span>
+
+                    <strong id="gst">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-divider"></div>
+
+
+                <div class="total-row">
+
+                    <span>
+                        Total Amount
+                    </span>
+
+                    <strong id="totalFare">
+                        ₹0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAY BUTTON -->
+            <button
+                id="payBtn"
+                class="pay-btn"
+            >
+
+                <span>
+                    🔒
+                </span>
+
+                Pay ₹<span id="payAmount">0</span>
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <p class="secure-note">
+                By continuing, you agree to RailBook's
+                booking terms and payment conditions.
+            </p>
+
+        </aside>
+
+    </main>
+
+</div>
+
+
+<!-- PAYMENT PROCESSING MODAL -->
+<div
+    id="processingModal"
+    class="processing-modal hidden"
+>
+
+    <div class="processing-card">
+
+        <div class="processing-spinner"></div>
+
+        <h2>
+            Processing Payment
+        </h2>
+
+        <p>
+            Please wait while we securely process
+            your payment.
+        </p>
+
+    </div>
+
+</div>
+```

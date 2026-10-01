@@ -1,0 +1,649 @@
+<div class="passenger-page">
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="passenger-header">
+
+        <div class="passenger-brand">
+
+            <div class="brand-icon">
+                🚆
+            </div>
+
+            <div>
+                <h2>RailBook</h2>
+                <span>Train Ticket Booking</span>
+            </div>
+
+        </div>
+
+
+        <!-- BOOKING STEPS -->
+
+        <div class="booking-step">
+
+            <div class="step completed">
+                <span>✓</span>
+                Search
+            </div>
+
+            <div class="step-line completed"></div>
+
+            <div class="step completed">
+                <span>✓</span>
+                Seats
+            </div>
+
+            <div class="step-line active"></div>
+
+            <div class="step active">
+                <span>3</span>
+                Passenger
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step">
+                <span>4</span>
+                Payment
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ================= JOURNEY CARD ================= -->
+
+    <section class="journey-card">
+
+        <div class="journey-main">
+
+            <div class="train-info">
+
+                <div class="train-icon">
+                    🚆
+                </div>
+
+                <div>
+
+                    <h2 id="trainName">
+                        Train
+                    </h2>
+
+                    <span id="trainNumber">
+                        Train No.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="route">
+
+                <div class="station">
+
+                    <strong id="fromStation">
+                        Chennai
+                    </strong>
+
+                    <span id="departureTime">
+                        06:10 AM
+                    </span>
+
+                </div>
+
+
+                <div class="route-line">
+
+                    <span id="journeyDuration">
+                        7h 50m
+                    </span>
+
+                    <div class="route-dots">
+
+                        <span></span>
+
+                        <div></div>
+
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="station destination">
+
+                    <strong id="toStation">
+                        Coimbatore
+                    </strong>
+
+                    <span id="arrivalTime">
+                        02:00 PM
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="journey-date">
+
+            <span>
+                JOURNEY DATE
+            </span>
+
+            <strong id="journeyDate">
+                Today
+            </strong>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="passenger-container">
+
+
+        <!-- ================= LEFT ================= -->
+
+        <section class="passenger-section">
+
+
+            <!-- PAGE TITLE -->
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        PASSENGER DETAILS
+                    </span>
+
+                    <h1>
+                        Who is travelling?
+                    </h1>
+
+                    <p>
+                        Enter passenger details exactly as they appear
+                        on the travel ID.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= SELECTED SEATS ================= -->
+
+            <div class="seat-info-card">
+
+                <div class="seat-info-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            SELECTED SEATS
+                        </span>
+
+                        <h3>
+                            Your reserved seats
+                        </h3>
+
+                    </div>
+
+                    <span
+                        id="seatCount"
+                        class="seat-count"
+                    >
+                        0 Seats
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="seatList"
+                    class="seat-list"
+                ></div>
+
+            </div>
+
+
+
+            <!-- ================= PASSENGER FORMS ================= -->
+
+            <div
+                id="passengerForms"
+                class="passenger-forms"
+            ></div>
+
+
+
+            <!-- ================= CONTACT DETAILS ================= -->
+
+            <div class="contact-card">
+
+                <div class="card-heading">
+
+                    <div class="card-icon">
+                        📱
+                    </div>
+
+                    <div>
+
+                        <span class="card-label">
+                            CONTACT DETAILS
+                        </span>
+
+                        <h3>
+                            Where should we send the ticket?
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="mobile">
+                            Mobile Number
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                +91
+                            </span>
+
+                            <input
+                                id="mobile"
+                                type="tel"
+                                maxlength="10"
+                                placeholder="Enter mobile number"
+                                autocomplete="tel"
+                            >
+
+                        </div>
+
+                        <small
+                            id="mobileError"
+                            class="error-message"
+                        ></small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                ✉
+                            </span>
+
+                            <input
+                                id="email"
+                                type="email"
+                                placeholder="Enter email address"
+                                autocomplete="email"
+                            >
+
+                        </div>
+
+                        <small
+                            id="emailError"
+                            class="error-message"
+                        ></small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= ID INFORMATION ================= -->
+
+            <div class="id-card">
+
+                <div class="card-heading">
+
+                    <div class="card-icon">
+                        🪪
+                    </div>
+
+                    <div>
+
+                        <span class="card-label">
+                            ID INFORMATION
+                        </span>
+
+                        <h3>
+                            Passenger identification
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="idType">
+                            ID Proof Type
+                        </label>
+
+                        <select id="idType">
+
+                            <option value="">
+                                Select ID proof
+                            </option>
+
+                            <option value="aadhaar">
+                                Aadhaar Card
+                            </option>
+
+                            <option value="passport">
+                                Passport
+                            </option>
+
+                            <option value="driving-license">
+                                Driving Licence
+                            </option>
+
+                            <option value="pan">
+                                PAN Card
+                            </option>
+
+                            <option value="voter">
+                                Voter ID
+                            </option>
+
+                        </select>
+
+                        <small
+                            id="idTypeError"
+                            class="error-message"
+                        ></small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="idNumber">
+                            ID Number
+                        </label>
+
+                        <input
+                            id="idNumber"
+                            type="text"
+                            placeholder="Enter ID number"
+                            autocomplete="off"
+                        >
+
+                        <small
+                            id="idNumberError"
+                            class="error-message"
+                        ></small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= ACTIONS ================= -->
+
+            <div class="passenger-actions">
+
+                <button
+                    id="backBtn"
+                    class="back-btn"
+                    type="button"
+                >
+                    ← Back to Seats
+                </button>
+
+
+                <button
+                    id="continueBtn"
+                    class="continue-btn"
+                    type="button"
+                >
+
+                    <span>
+                        Continue to Payment
+                    </span>
+
+                    <strong>
+                        →
+                    </strong>
+
+                </button>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= RIGHT SUMMARY ================= -->
+
+        <aside class="booking-summary">
+
+
+            <div class="summary-header">
+
+                <div>
+
+                    <span class="section-label">
+                        BOOKING SUMMARY
+                    </span>
+
+                    <h2>
+                        Your journey
+                    </h2>
+
+                </div>
+
+                <span class="secure-badge">
+                    🔒 Secure
+                </span>
+
+            </div>
+
+
+
+            <!-- ROUTE -->
+
+            <div class="summary-route">
+
+                <div>
+
+                    <strong id="summaryFrom">
+                        Chennai
+                    </strong>
+
+                    <span>
+                        Departure
+                    </span>
+
+                </div>
+
+
+                <div class="summary-arrow">
+                    →
+                </div>
+
+
+                <div>
+
+                    <strong id="summaryTo">
+                        Coimbatore
+                    </strong>
+
+                    <span>
+                        Arrival
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TRAIN -->
+
+            <div class="summary-train">
+
+                <div class="mini-train-icon">
+                    🚆
+                </div>
+
+                <div>
+
+                    <strong id="summaryTrain">
+                        Train
+                    </strong>
+
+                    <span id="summaryTrainNumber">
+                        Train No.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PASSENGERS -->
+
+            <div class="summary-passengers">
+
+                <div class="summary-title">
+                    Passengers
+                </div>
+
+                <div
+                    id="summaryPassengerList"
+                    class="summary-passenger-list"
+                ></div>
+
+            </div>
+
+
+
+            <!-- FARE -->
+
+            <div class="fare-section">
+
+                <div class="fare-row">
+
+                    <span>
+                        Base Fare
+                    </span>
+
+                    <strong id="baseFare">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-row">
+
+                    <span>
+                        Convenience Fee
+                    </span>
+
+                    <strong id="convenienceFee">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-row">
+
+                    <span>
+                        GST
+                    </span>
+
+                    <strong id="gst">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-divider"></div>
+
+
+                <div class="total-row">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong id="totalFare">
+                        ₹0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SECURITY -->
+
+            <div class="secure-box">
+
+                <div class="secure-icon">
+                    🔒
+                </div>
+
+                <div>
+
+                    <strong>
+                        Your information is secure
+                    </strong>
+
+                    <span>
+                        Your personal details are protected
+                        during the booking process.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </main>
+
+</div>

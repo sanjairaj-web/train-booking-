@@ -1,16 +1,22 @@
 <div class="seat-page">
 
-    <!-- HEADER -->
+    <!-- ================= HEADER ================= -->
+
     <header class="seat-header">
 
         <div class="seat-brand">
-            <div class="brand-icon">🚆</div>
+
+            <div class="brand-icon">
+                🚆
+            </div>
 
             <div>
                 <h2>RailBook</h2>
                 <span>Train Ticket Booking</span>
             </div>
+
         </div>
+
 
         <div class="booking-step">
 
@@ -45,7 +51,9 @@
     </header>
 
 
-    <!-- JOURNEY INFORMATION -->
+
+    <!-- ================= JOURNEY CARD ================= -->
+
     <section class="journey-card">
 
         <div class="journey-main">
@@ -57,6 +65,7 @@
                 </div>
 
                 <div>
+
                     <h2 id="trainName">
                         Train
                     </h2>
@@ -64,6 +73,7 @@
                     <span id="trainNumber">
                         Train No.
                     </span>
+
                 </div>
 
             </div>
@@ -90,8 +100,10 @@
                         7h 50m
                     </span>
 
-                    <div>
-                        ● ───────── ●
+                    <div class="route-dots">
+                        <span></span>
+                        <div></div>
+                        <span></span>
                     </div>
 
                 </div>
@@ -116,7 +128,9 @@
 
         <div class="journey-date">
 
-            <span>JOURNEY DATE</span>
+            <span>
+                JOURNEY DATE
+            </span>
 
             <strong id="journeyDate">
                 Today
@@ -127,15 +141,19 @@
     </section>
 
 
-    <!-- MAIN CONTENT -->
+
+    <!-- ================= MAIN ================= -->
+
     <main class="seat-container">
 
 
-        <!-- LEFT -->
+        <!-- ================= LEFT ================= -->
+
         <section class="seat-selection">
 
 
-            <!-- TITLE -->
+            <!-- HEADING -->
+
             <div class="section-heading">
 
                 <div>
@@ -159,7 +177,6 @@
                 </div>
 
 
-                <!-- TIMER -->
                 <div class="hold-timer">
 
                     <span>
@@ -175,7 +192,9 @@
             </div>
 
 
-            <!-- COACH SELECTOR -->
+
+            <!-- ================= COACH SELECTOR ================= -->
+
             <div class="coach-selector">
 
                 <div class="coach-title">
@@ -199,7 +218,9 @@
             </div>
 
 
-            <!-- LEGEND -->
+
+            <!-- ================= LEGEND ================= -->
+
             <div class="seat-legend">
 
                 <div>
@@ -225,18 +246,26 @@
             </div>
 
 
-            <!-- COACH -->
+
+            <!-- ================= COACH ================= -->
+
             <div class="coach-wrapper">
 
                 <div class="coach-header">
 
-                    <span>
-                        🚆 Coach
-                    </span>
+                    <div>
+                        <span>
+                            🚆 Coach
+                        </span>
 
-                    <strong id="activeCoach">
-                        S1
-                    </strong>
+                        <strong id="activeCoach">
+                            S1
+                        </strong>
+                    </div>
+
+                    <span class="coach-class">
+                        Sleeper
+                    </span>
 
                 </div>
 
@@ -251,7 +280,9 @@
         </section>
 
 
-        <!-- RIGHT SUMMARY -->
+
+        <!-- ================= SUMMARY ================= -->
+
         <aside class="booking-summary">
 
 
@@ -269,6 +300,7 @@
 
                 </div>
 
+
                 <span
                     id="selectedCount"
                     class="selected-count"
@@ -279,7 +311,9 @@
             </div>
 
 
-            <!-- JOURNEY -->
+
+            <!-- ROUTE -->
+
             <div class="summary-route">
 
                 <div>
@@ -315,7 +349,9 @@
             </div>
 
 
+
             <!-- SELECTED SEATS -->
+
             <div class="selected-section">
 
                 <div class="summary-title">
@@ -337,7 +373,9 @@
             </div>
 
 
+
             <!-- FARE -->
+
             <div class="fare-section">
 
                 <div class="fare-row">
@@ -397,18 +435,22 @@
             </div>
 
 
-            <!-- BUTTON -->
+
+            <!-- CONTINUE -->
+
             <button
                 id="continueBtn"
                 class="continue-btn"
                 disabled
             >
 
-                Continue to Passenger Details
-
                 <span>
-                    →
+                    Continue to Passenger Details
                 </span>
+
+                <strong>
+                    →
+                </strong>
 
             </button>
 
