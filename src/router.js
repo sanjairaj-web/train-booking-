@@ -4,6 +4,7 @@ import { showSearch } from "./search/search.js";
 import { showSeat } from "./seat/seat.js";
 import{ showPassenger } from "./passenger/passenger.js";
 import { showPayment } from "./payment/payment.js";
+import { showTicket } from "./ticket/ticket.js";
 
 
 export function navigate(page, app) {
@@ -64,6 +65,12 @@ export function navigate(page, app) {
             case "payment":
 
             showPayment(app);
+
+            break;
+
+            case "ticket":
+
+            showTicket(app);    
 
             break;
 
