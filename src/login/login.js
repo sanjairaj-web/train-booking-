@@ -1,7 +1,7 @@
 import "./login.css";
 import loginHTML from "./login.html";
 
-import { showSignup } from "../signup/signup.js";
+import { navigate } from "../router.js";
 
 
 export function showLogin(app) {
@@ -129,9 +129,8 @@ export function showLogin(app) {
                 // Temporary next page
                 setTimeout(() => {
 
-                    alert(
-                        "Login successful! Train Search page will come next."
-                    );
+                    navigate("search", app);
+
 
                 }, 500);
 

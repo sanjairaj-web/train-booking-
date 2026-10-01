@@ -1,0 +1,483 @@
+<div class="search-page">
+
+    <!-- HEADER -->
+    <header class="search-header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🚆
+            </div>
+
+            <div>
+                <h2>RailBook</h2>
+                <span>Smart Train Booking</span>
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <div class="user-info">
+                <span class="user-icon">👤</span>
+                <span id="userName">User</span>
+            </div>
+
+            <button
+                id="logoutBtn"
+                class="logout-btn"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- HERO -->
+    <section class="search-hero">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                🚆 TRAIN BOOKING
+            </span>
+
+            <h1>
+                Plan your journey
+            </h1>
+
+            <p>
+                Search trains, compare schedules and
+                choose your perfect journey.
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH BOX -->
+        <div class="search-box">
+
+            <!-- TRIP TYPE -->
+            <div class="trip-tabs">
+
+                <button
+                    class="trip-tab active"
+                    data-trip="oneway"
+                >
+                    One Way
+                </button>
+
+                <button
+                    class="trip-tab"
+                    data-trip="roundtrip"
+                >
+                    Round Trip
+                </button>
+
+            </div>
+
+
+            <!-- SEARCH FIELDS -->
+            <div class="search-fields">
+
+
+                <!-- FROM -->
+                <div class="field-group">
+
+                    <label>
+                        FROM
+                    </label>
+
+                    <div class="station-field">
+
+                        <span class="station-icon from-icon">
+                            ●
+                        </span>
+
+                        <div class="station-content">
+
+                            <span class="field-label">
+                                Departure
+                            </span>
+
+                            <select id="fromStation">
+
+                                <option value="Chennai">
+                                    Chennai
+                                </option>
+
+                                <option value="Coimbatore">
+                                    Coimbatore
+                                </option>
+
+                                <option value="Madurai">
+                                    Madurai
+                                </option>
+
+                                <option value="Bangalore">
+                                    Bangalore
+                                </option>
+
+                                <option value="Salem">
+                                    Salem
+                                </option>
+
+                                <option value="Trichy">
+                                    Trichy
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SWAP -->
+                <button
+                    id="swapBtn"
+                    class="swap-btn"
+                    title="Swap stations"
+                >
+                    ⇄
+                </button>
+
+
+                <!-- TO -->
+                <div class="field-group">
+
+                    <label>
+                        TO
+                    </label>
+
+                    <div class="station-field">
+
+                        <span class="station-icon to-icon">
+                            ●
+                        </span>
+
+                        <div class="station-content">
+
+                            <span class="field-label">
+                                Destination
+                            </span>
+
+                            <select id="toStation">
+
+                                <option value="Coimbatore">
+                                    Coimbatore
+                                </option>
+
+                                <option value="Chennai">
+                                    Chennai
+                                </option>
+
+                                <option value="Madurai">
+                                    Madurai
+                                </option>
+
+                                <option value="Bangalore">
+                                    Bangalore
+                                </option>
+
+                                <option value="Salem">
+                                    Salem
+                                </option>
+
+                                <option value="Trichy">
+                                    Trichy
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DEPARTURE -->
+                <div class="field-group">
+
+                    <label>
+                        DEPARTURE
+                    </label>
+
+                    <div class="normal-field">
+
+                        <span class="field-icon">
+                            📅
+                        </span>
+
+                        <div>
+
+                            <span class="field-label">
+                                Travel date
+                            </span>
+
+                            <input
+                                type="date"
+                                id="journeyDate"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RETURN -->
+                <div
+                    class="field-group return-field hidden"
+                    id="returnField"
+                >
+
+                    <label>
+                        RETURN
+                    </label>
+
+                    <div class="normal-field">
+
+                        <span class="field-icon">
+                            🔄
+                        </span>
+
+                        <div>
+
+                            <span class="field-label">
+                                Return date
+                            </span>
+
+                            <input
+                                type="date"
+                                id="returnDate"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSENGERS -->
+                <div class="field-group">
+
+                    <label>
+                        PASSENGERS
+                    </label>
+
+                    <div class="normal-field">
+
+                        <span class="field-icon">
+                            👤
+                        </span>
+
+                        <div>
+
+                            <span class="field-label">
+                                Travellers
+                            </span>
+
+                            <select id="passengers">
+
+                                <option value="1">
+                                    1 Passenger
+                                </option>
+
+                                <option value="2">
+                                    2 Passengers
+                                </option>
+
+                                <option value="3">
+                                    3 Passengers
+                                </option>
+
+                                <option value="4">
+                                    4 Passengers
+                                </option>
+
+                                <option value="5">
+                                    5 Passengers
+                                </option>
+
+                                <option value="6">
+                                    6 Passengers
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CLASS -->
+                <div class="field-group">
+
+                    <label>
+                        CLASS
+                    </label>
+
+                    <div class="normal-field">
+
+                        <span class="field-icon">
+                            💺
+                        </span>
+
+                        <div>
+
+                            <span class="field-label">
+                                Travel class
+                            </span>
+
+                            <select id="travelClass">
+
+                                <option value="3A">
+                                    AC 3 Tier
+                                </option>
+
+                                <option value="2A">
+                                    AC 2 Tier
+                                </option>
+
+                                <option value="1A">
+                                    First AC
+                                </option>
+
+                                <option value="SL">
+                                    Sleeper
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SEARCH BUTTON -->
+                <button
+                    id="searchBtn"
+                    class="search-btn"
+                >
+
+                    <span>
+                        🔎
+                    </span>
+
+                    Search Trains
+
+                </button>
+
+            </div>
+
+
+            <!-- QUICK DATES -->
+            <div class="quick-dates">
+
+                <span>
+                    Quick dates
+                </span>
+
+                <button data-date="today">
+                    Today
+                </button>
+
+                <button data-date="tomorrow">
+                    Tomorrow
+                </button>
+
+                <button data-date="2days">
+                    +2 Days
+                </button>
+
+                <button data-date="3days">
+                    +3 Days
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULTS -->
+    <main class="results-container">
+
+        <div
+            id="resultsHeader"
+            class="results-header hidden"
+        >
+
+            <div>
+
+                <span class="results-label">
+                    AVAILABLE TRAINS
+                </span>
+
+                <h2 id="resultsTitle">
+                    Trains
+                </h2>
+
+                <p id="resultsSubtitle">
+                    Choose a train for your journey.
+                </p>
+
+            </div>
+
+
+            <div class="result-count">
+                <strong id="trainCount">
+                    0
+                </strong>
+
+                trains found
+            </div>
+
+        </div>
+
+
+        <!-- RESULTS -->
+        <div
+            id="trainResults"
+            class="train-results"
+        ></div>
+
+    </main>
+
+
+    <!-- DETAILS MODAL -->
+    <div
+        id="detailsModal"
+        class="modal-overlay hidden"
+    >
+
+        <div class="details-modal">
+
+            <button
+                id="closeModal"
+                class="close-modal"
+            >
+                ×
+            </button>
+
+            <div id="modalContent"></div>
+
+        </div>
+
+    </div>
+
+</div>

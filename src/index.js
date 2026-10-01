@@ -1,5 +1,29 @@
-import { showLogin } from "./login/login.js";
+import { navigate } from "./router.js";
 
-const app = document.getElementById("app");
+const app =
+    document.getElementById("app");
 
-showLogin(app);
+
+// ==============================
+// CHECK LOGIN
+// ==============================
+
+const isLoggedIn =
+    localStorage.getItem(
+        "isLoggedIn"
+    );
+
+
+// ==============================
+// INITIAL NAVIGATION
+// ==============================
+
+if (isLoggedIn === "true") {
+
+    navigate("search", app);
+
+} else {
+
+    navigate("login", app);
+
+}

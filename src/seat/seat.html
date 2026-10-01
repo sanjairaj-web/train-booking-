@@ -1,0 +1,425 @@
+<div class="seat-page">
+
+    <!-- HEADER -->
+    <header class="seat-header">
+
+        <div class="seat-brand">
+            <div class="brand-icon">🚆</div>
+
+            <div>
+                <h2>RailBook</h2>
+                <span>Train Ticket Booking</span>
+            </div>
+        </div>
+
+        <div class="booking-step">
+
+            <div class="step active">
+                <span>1</span>
+                Search
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step active">
+                <span>2</span>
+                Seats
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step">
+                <span>3</span>
+                Passenger
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step">
+                <span>4</span>
+                Payment
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- JOURNEY INFORMATION -->
+    <section class="journey-card">
+
+        <div class="journey-main">
+
+            <div class="train-info">
+
+                <div class="train-icon">
+                    🚆
+                </div>
+
+                <div>
+                    <h2 id="trainName">
+                        Train
+                    </h2>
+
+                    <span id="trainNumber">
+                        Train No.
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="route">
+
+                <div class="station">
+
+                    <strong id="fromStation">
+                        Chennai
+                    </strong>
+
+                    <span id="departureTime">
+                        06:10 AM
+                    </span>
+
+                </div>
+
+
+                <div class="route-line">
+
+                    <span id="journeyDuration">
+                        7h 50m
+                    </span>
+
+                    <div>
+                        ● ───────── ●
+                    </div>
+
+                </div>
+
+
+                <div class="station destination">
+
+                    <strong id="toStation">
+                        Coimbatore
+                    </strong>
+
+                    <span id="arrivalTime">
+                        02:00 PM
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="journey-date">
+
+            <span>JOURNEY DATE</span>
+
+            <strong id="journeyDate">
+                Today
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="seat-container">
+
+
+        <!-- LEFT -->
+        <section class="seat-selection">
+
+
+            <!-- TITLE -->
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        SELECT YOUR SEATS
+                    </span>
+
+                    <h1>
+                        Choose your seats
+                    </h1>
+
+                    <p>
+                        Select up to
+                        <strong id="maxPassengers">
+                            4
+                        </strong>
+                        seats for your journey.
+                    </p>
+
+                </div>
+
+
+                <!-- TIMER -->
+                <div class="hold-timer">
+
+                    <span>
+                        SEATS HELD FOR
+                    </span>
+
+                    <strong id="timer">
+                        05:00
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- COACH SELECTOR -->
+            <div class="coach-selector">
+
+                <div class="coach-title">
+
+                    <span>
+                        SELECT COACH
+                    </span>
+
+                    <small>
+                        Sleeper Class
+                    </small>
+
+                </div>
+
+
+                <div
+                    id="coachList"
+                    class="coach-list"
+                ></div>
+
+            </div>
+
+
+            <!-- LEGEND -->
+            <div class="seat-legend">
+
+                <div>
+                    <span class="legend-seat available"></span>
+                    Available
+                </div>
+
+                <div>
+                    <span class="legend-seat selected"></span>
+                    Selected
+                </div>
+
+                <div>
+                    <span class="legend-seat occupied"></span>
+                    Booked
+                </div>
+
+                <div>
+                    <span class="legend-seat held"></span>
+                    Held
+                </div>
+
+            </div>
+
+
+            <!-- COACH -->
+            <div class="coach-wrapper">
+
+                <div class="coach-header">
+
+                    <span>
+                        🚆 Coach
+                    </span>
+
+                    <strong id="activeCoach">
+                        S1
+                    </strong>
+
+                </div>
+
+
+                <div
+                    id="seatMap"
+                    class="seat-map"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SUMMARY -->
+        <aside class="booking-summary">
+
+
+            <div class="summary-header">
+
+                <div>
+
+                    <span class="section-label">
+                        BOOKING SUMMARY
+                    </span>
+
+                    <h2>
+                        Your journey
+                    </h2>
+
+                </div>
+
+                <span
+                    id="selectedCount"
+                    class="selected-count"
+                >
+                    0 seats
+                </span>
+
+            </div>
+
+
+            <!-- JOURNEY -->
+            <div class="summary-route">
+
+                <div>
+
+                    <strong id="summaryFrom">
+                        Chennai
+                    </strong>
+
+                    <span>
+                        Departure
+                    </span>
+
+                </div>
+
+
+                <div class="summary-arrow">
+                    →
+                </div>
+
+
+                <div>
+
+                    <strong id="summaryTo">
+                        Coimbatore
+                    </strong>
+
+                    <span>
+                        Arrival
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- SELECTED SEATS -->
+            <div class="selected-section">
+
+                <div class="summary-title">
+                    Selected Seats
+                </div>
+
+
+                <div
+                    id="selectedSeats"
+                    class="selected-seats"
+                >
+
+                    <div class="no-seat">
+                        No seats selected
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FARE -->
+            <div class="fare-section">
+
+                <div class="fare-row">
+
+                    <span>
+                        Base Fare
+                    </span>
+
+                    <strong id="baseFare">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-row">
+
+                    <span>
+                        Convenience Fee
+                    </span>
+
+                    <strong id="convenienceFee">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-row">
+
+                    <span>
+                        GST
+                    </span>
+
+                    <strong id="gst">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="fare-divider"></div>
+
+
+                <div class="total-row">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong id="totalFare">
+                        ₹0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+            <button
+                id="continueBtn"
+                class="continue-btn"
+                disabled
+            >
+
+                Continue to Passenger Details
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <p class="secure-note">
+                🔒 Your seat will be temporarily held
+                while you complete the booking.
+            </p>
+
+        </aside>
+
+    </main>
+
+</div>

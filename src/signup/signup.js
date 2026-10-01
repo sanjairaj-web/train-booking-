@@ -1,86 +1,35 @@
 import "./signup.css";
+
 import signupHTML from "./signup.html";
 
-import { showLogin } from "../login/login.js";
+import { navigate } from "../router.js";
 
 
 export function showSignup(app) {
 
-    // Load signup page
     app.innerHTML = signupHTML;
 
 
-    // =========================
-    // GET ELEMENTS
-    // =========================
-
     const signupForm =
-        document.getElementById(
-            "signupForm"
-        );
+        document.getElementById("signupForm");
 
     const nameInput =
-        document.getElementById(
-            "signupName"
-        );
+        document.getElementById("signupName");
 
     const emailInput =
-        document.getElementById(
-            "signupEmail"
-        );
+        document.getElementById("signupEmail");
 
     const passwordInput =
-        document.getElementById(
-            "signupPassword"
-        );
+        document.getElementById("signupPassword");
 
     const confirmPasswordInput =
-        document.getElementById(
-            "confirmPassword"
-        );
+        document.getElementById("confirmPassword");
 
     const message =
-        document.getElementById(
-            "signupMessage"
-        );
-
-    const togglePassword =
-        document.getElementById(
-            "toggleSignupPassword"
-        );
+        document.getElementById("signupMessage");
 
     const loginButton =
-        document.getElementById(
-            "goToLogin"
-        );
-
-
-    // =========================
-    // TOGGLE PASSWORD
-    // =========================
-
-    togglePassword.addEventListener(
-        "click",
-        () => {
-
-            if (
-                passwordInput.type === "password"
-            ) {
-
-                passwordInput.type = "text";
-
-                togglePassword.textContent = "🙈";
-
-            } else {
-
-                passwordInput.type = "password";
-
-                togglePassword.textContent = "👁";
-
-            }
-
-        }
-    );
+        document.getElementById("goToLogin");
 
 
     // =========================
@@ -89,7 +38,7 @@ export function showSignup(app) {
 
     signupForm.addEventListener(
         "submit",
-        (event) => {
+        function (event) {
 
             event.preventDefault();
 
@@ -114,11 +63,12 @@ export function showSignup(app) {
             if (name.length < 3) {
 
                 showMessage(
-                    "Name must contain at least 3 characters.",
+                    "Enter a valid name.",
                     "error"
                 );
 
                 return;
+
             }
 
 
@@ -130,6 +80,7 @@ export function showSignup(app) {
                 );
 
                 return;
+
             }
 
 
@@ -143,52 +94,21 @@ export function showSignup(app) {
                 );
 
                 return;
-            }
-
-
-            // =========================
-            // CHECK EXISTING USER
-            // =========================
-
-            const existingUser =
-                localStorage.getItem(
-                    "trainBookingUser"
-                );
-
-
-            if (existingUser) {
-
-                const user =
-                    JSON.parse(existingUser);
-
-
-                if (
-                    user.email.toLowerCase() ===
-                    email.toLowerCase()
-                ) {
-
-                    showMessage(
-                        "An account with this email already exists.",
-                        "error"
-                    );
-
-                    return;
-                }
 
             }
 
 
             // =========================
-            // CREATE USER
+            // SAVE USER
             // =========================
 
             const user = {
 
-                name: name,
+                name,
 
-                email: email,
+                email,
 
-                password: password
+                password
 
             };
 
@@ -199,23 +119,22 @@ export function showSignup(app) {
             );
 
 
-            // =========================
-            // SUCCESS
-            // =========================
-
             showMessage(
                 "Account created successfully!",
                 "success"
             );
 
 
-            signupForm.reset();
+            // =========================
+            // GO TO LOGIN
+            // =========================
 
-
-            // Go to login
             setTimeout(() => {
 
-                showLogin(app);
+                navigate(
+                    "login",
+                    app
+                );
 
             }, 1000);
 
@@ -224,22 +143,21 @@ export function showSignup(app) {
 
 
     // =========================
-    // GO TO LOGIN
+    // LOGIN NAVIGATION
     // =========================
 
     loginButton.addEventListener(
         "click",
         () => {
 
-            showLogin(app);
+            navigate(
+                "login",
+                app
+            );
 
         }
     );
 
-
-    // =========================
-    // MESSAGE
-    // =========================
 
     function showMessage(
         text,
