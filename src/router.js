@@ -5,6 +5,7 @@ import { showPassenger } from "./passenger/passenger.js";
 import { showPayment } from "./payment/payment.js";
 import { showTicket } from "./ticket/ticket.js";
 import { showMyBooking } from "./mybooking/mybooking.js";
+import { showSignup } from "./signup/signup.js";
 
 
 export function navigate(
@@ -17,6 +18,13 @@ export function navigate(
         case "login":
 
             showLogin(app);
+
+            break;
+
+
+        case "signup":
+
+            showSignup(app);
 
             break;
 

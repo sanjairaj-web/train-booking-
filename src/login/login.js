@@ -154,8 +154,12 @@ export function showLogin(app) {
     signupButton.addEventListener(
         "click",
         () => {
+             navigate(
+                "signup",
+                app
+            );
 
-            showSignup(app);
+           // showSignup(app);
 
         }
     );
