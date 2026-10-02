@@ -1,19 +1,19 @@
 import { showLogin } from "./login/login.js";
-import { showSignup } from "./signup/signup.js";
 import { showSearch } from "./search/search.js";
 import { showSeat } from "./seat/seat.js";
-import{ showPassenger } from "./passenger/passenger.js";
+import { showPassenger } from "./passenger/passenger.js";
 import { showPayment } from "./payment/payment.js";
 import { showTicket } from "./ticket/ticket.js";
+import { showMyBooking } from "./mybooking/mybooking.js";
 
 
-export function navigate(page, app) {
+export function navigate(
+    page,
+    app
+) {
 
     switch (page) {
 
-        // =========================
-        // LOGIN
-        // =========================
         case "login":
 
             showLogin(app);
@@ -21,19 +21,6 @@ export function navigate(page, app) {
             break;
 
 
-        // =========================
-        // SIGNUP
-        // =========================
-        case "signup":
-
-            showSignup(app);
-
-            break;
-
-
-        // =========================
-        // TRAIN SEARCH
-        // =========================
         case "search":
 
             showSearch(app);
@@ -41,52 +28,44 @@ export function navigate(page, app) {
             break;
 
 
-        // =========================
-        // SEAT SELECTION
-        // =========================
         case "seat":
 
             showSeat(app);
 
             break;
-          case "seat":
 
-            showSeat(app);
 
-            break;
-
-         case "passenger":
+        case "passenger":
 
             showPassenger(app);
 
             break;
 
 
-            case "payment":
+        case "payment":
 
             showPayment(app);
 
             break;
 
-            case "ticket":
 
-            showTicket(app);    
+        case "ticket":
+
+            showTicket(app);
 
             break;
 
-        
 
-        // =========================
-        // DEFAULT
-        // =========================
+        case "mybooking":
+
+            showMyBooking(app);
+
+            break;
+
+
         default:
 
-            console.log(
-                "Unknown route:",
-                page
-            );
-
-            showLogin(app);
+            showSearch(app);
 
     }
 

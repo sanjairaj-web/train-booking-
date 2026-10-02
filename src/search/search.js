@@ -6,6 +6,10 @@ import { navigate } from "../router.js";
 
 export function showSearch(app) {
 
+    // =====================================================
+    // LOAD HTML
+    // =====================================================
+
     app.innerHTML = searchHTML;
 
 
@@ -14,61 +18,104 @@ export function showSearch(app) {
     // =====================================================
 
     const fromStation =
-        document.getElementById("fromStation");
+        document.getElementById(
+            "fromStation"
+        );
 
     const toStation =
-        document.getElementById("toStation");
+        document.getElementById(
+            "toStation"
+        );
 
     const journeyDate =
-        document.getElementById("journeyDate");
+        document.getElementById(
+            "journeyDate"
+        );
 
     const returnDate =
-        document.getElementById("returnDate");
+        document.getElementById(
+            "returnDate"
+        );
 
     const returnField =
-        document.getElementById("returnField");
+        document.getElementById(
+            "returnField"
+        );
 
     const passengers =
-        document.getElementById("passengers");
+        document.getElementById(
+            "passengers"
+        );
 
     const travelClass =
-        document.getElementById("travelClass");
+        document.getElementById(
+            "travelClass"
+        );
 
     const searchBtn =
-        document.getElementById("searchBtn");
+        document.getElementById(
+            "searchBtn"
+        );
 
     const swapBtn =
-        document.getElementById("swapBtn");
+        document.getElementById(
+            "swapBtn"
+        );
 
     const trainResults =
-        document.getElementById("trainResults");
+        document.getElementById(
+            "trainResults"
+        );
 
     const resultsHeader =
-        document.getElementById("resultsHeader");
+        document.getElementById(
+            "resultsHeader"
+        );
 
     const trainCount =
-        document.getElementById("trainCount");
+        document.getElementById(
+            "trainCount"
+        );
 
     const resultsTitle =
-        document.getElementById("resultsTitle");
+        document.getElementById(
+            "resultsTitle"
+        );
 
     const resultsSubtitle =
-        document.getElementById("resultsSubtitle");
+        document.getElementById(
+            "resultsSubtitle"
+        );
 
     const userName =
-        document.getElementById("userName");
+        document.getElementById(
+            "userName"
+        );
 
     const logoutBtn =
-        document.getElementById("logoutBtn");
+        document.getElementById(
+            "logoutBtn"
+        );
+
+    const myBookingsBtn =
+        document.getElementById(
+            "myBookingsBtn"
+        );
 
     const detailsModal =
-        document.getElementById("detailsModal");
+        document.getElementById(
+            "detailsModal"
+        );
 
     const modalContent =
-        document.getElementById("modalContent");
+        document.getElementById(
+            "modalContent"
+        );
 
     const closeModal =
-        document.getElementById("closeModal");
+        document.getElementById(
+            "closeModal"
+        );
 
 
     // =====================================================
@@ -76,7 +123,9 @@ export function showSearch(app) {
     // =====================================================
 
     const savedUser =
-        localStorage.getItem("userName");
+        localStorage.getItem(
+            "userName"
+        );
 
 
     if (savedUser) {
@@ -88,6 +137,23 @@ export function showSearch(app) {
 
 
     // =====================================================
+    // MY BOOKINGS
+    // =====================================================
+
+    myBookingsBtn.addEventListener(
+        "click",
+        () => {
+
+            navigate(
+                "mybooking",
+                app
+            );
+
+        }
+    );
+
+
+    // =====================================================
     // DATE
     // =====================================================
 
@@ -96,7 +162,9 @@ export function showSearch(app) {
 
 
     const todayString =
-        formatDate(today);
+        formatDate(
+            today
+        );
 
 
     journeyDate.min =
@@ -115,58 +183,76 @@ export function showSearch(app) {
     // TRIP TYPE
     // =====================================================
 
-    let tripType = "oneway";
+    let tripType =
+        "oneway";
 
 
     document
-        .querySelectorAll(".trip-tab")
-        .forEach(tab => {
+        .querySelectorAll(
+            ".trip-tab"
+        )
+        .forEach(
+            tab => {
 
-            tab.addEventListener(
-                "click",
-                () => {
+                tab.addEventListener(
+                    "click",
+                    () => {
 
-                    document
-                        .querySelectorAll(".trip-tab")
-                        .forEach(item => {
+                        document
+                            .querySelectorAll(
+                                ".trip-tab"
+                            )
+                            .forEach(
+                                item => {
 
-                            item.classList.remove(
-                                "active"
+                                    item.classList.remove(
+                                        "active"
+                                    );
+
+                                }
                             );
 
-                        });
 
-
-                    tab.classList.add(
-                        "active"
-                    );
-
-
-                    tripType =
-                        tab.dataset.trip;
-
-
-                    if (
-                        tripType ===
-                        "roundtrip"
-                    ) {
-
-                        returnField.classList.remove(
-                            "hidden"
+                        tab.classList.add(
+                            "active"
                         );
 
-                    } else {
 
-                        returnField.classList.add(
-                            "hidden"
-                        );
+                        tripType =
+                            tab.dataset.trip;
+
+
+                        if (
+                            tripType ===
+                            "roundtrip"
+                        ) {
+
+                            returnField.classList.remove(
+                                "hidden"
+                            );
+
+
+                            if (
+                                journeyDate.value
+                            ) {
+
+                                setDefaultReturnDate();
+
+                            }
+
+                        } else {
+
+                            returnField.classList.add(
+                                "hidden"
+                            );
+
+                        }
 
                     }
+                );
 
-                }
-            );
-
-        });
+            }
+        );
 
 
     // =====================================================
@@ -200,87 +286,111 @@ export function showSearch(app) {
         .querySelectorAll(
             ".quick-dates button"
         )
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    const type =
-                        button.dataset.date;
-
-
-                    const date =
-                        new Date();
+                        const type =
+                            button.dataset.date;
 
 
-                    if (
-                        type ===
-                        "tomorrow"
-                    ) {
-
-                        date.setDate(
-                            date.getDate() + 1
-                        );
-
-                    }
+                        const date =
+                            new Date();
 
 
-                    if (
-                        type ===
-                        "2days"
-                    ) {
+                        if (
+                            type ===
+                            "tomorrow"
+                        ) {
 
-                        date.setDate(
-                            date.getDate() + 2
-                        );
-
-                    }
-
-
-                    if (
-                        type ===
-                        "3days"
-                    ) {
-
-                        date.setDate(
-                            date.getDate() + 3
-                        );
-
-                    }
-
-
-                    journeyDate.value =
-                        formatDate(date);
-
-
-                    // Round trip return
-
-                    if (
-                        tripType ===
-                        "roundtrip"
-                    ) {
-
-                        const returnTrip =
-                            new Date(date);
-
-
-                        returnTrip.setDate(
-                            returnTrip.getDate() + 2
-                        );
-
-
-                        returnDate.value =
-                            formatDate(
-                                returnTrip
+                            date.setDate(
+                                date.getDate() + 1
                             );
 
+                        }
+
+
+                        if (
+                            type ===
+                            "2days"
+                        ) {
+
+                            date.setDate(
+                                date.getDate() + 2
+                            );
+
+                        }
+
+
+                        if (
+                            type ===
+                            "3days"
+                        ) {
+
+                            date.setDate(
+                                date.getDate() + 3
+                            );
+
+                        }
+
+
+                        journeyDate.value =
+                            formatDate(
+                                date
+                            );
+
+
+                        if (
+                            tripType ===
+                            "roundtrip"
+                        ) {
+
+                            setDefaultReturnDate();
+
+                        }
+
                     }
+                );
+
+            }
+        );
+
+
+    // =====================================================
+    // RETURN DATE VALIDATION
+    // =====================================================
+
+    journeyDate.addEventListener(
+        "change",
+        () => {
+
+            returnDate.min =
+                journeyDate.value;
+
+
+            if (
+                tripType ===
+                "roundtrip"
+            ) {
+
+                if (
+                    returnDate.value &&
+                    returnDate.value <
+                    journeyDate.value
+                ) {
+
+                    returnDate.value =
+                        "";
 
                 }
-            );
 
-        });
+            }
+
+        }
+    );
 
 
     // =====================================================
@@ -293,6 +403,7 @@ export function showSearch(app) {
 
             const from =
                 fromStation.value;
+
 
             const to =
                 toStation.value;
@@ -312,9 +423,40 @@ export function showSearch(app) {
                 travelClass.value;
 
 
-            // Same station
+            // ---------------------------------------------
+            // VALIDATION
+            // ---------------------------------------------
 
-            if (from === to) {
+            if (!from) {
+
+                alert(
+                    "Please select your departure station."
+                );
+
+                fromStation.focus();
+
+                return;
+
+            }
+
+
+            if (!to) {
+
+                alert(
+                    "Please select your destination."
+                );
+
+                toStation.focus();
+
+                return;
+
+            }
+
+
+            if (
+                from ===
+                to
+            ) {
 
                 alert(
                     "Departure and destination cannot be the same."
@@ -325,16 +467,10 @@ export function showSearch(app) {
             }
 
 
-            // Round trip validation
-
-            if (
-                tripType ===
-                "roundtrip" &&
-                !returnDate.value
-            ) {
+            if (!date) {
 
                 alert(
-                    "Please select a return date."
+                    "Please select a journey date."
                 );
 
                 return;
@@ -342,34 +478,78 @@ export function showSearch(app) {
             }
 
 
-            // Save journey
+            if (
+                tripType ===
+                "roundtrip"
+            ) {
+
+                if (
+                    !returnDate.value
+                ) {
+
+                    alert(
+                        "Please select a return date."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    returnDate.value <
+                    date
+                ) {
+
+                    alert(
+                        "Return date cannot be before journey date."
+                    );
+
+                    return;
+
+                }
+
+            }
+
+
+            // ---------------------------------------------
+            // SAVE JOURNEY
+            // ---------------------------------------------
+
+            const journeyData = {
+
+                from,
+
+                to,
+
+                journeyDate:
+                    date,
+
+                returnDate:
+                    returnDate.value,
+
+                tripType,
+
+                passengers:
+                    passengerCount,
+
+                travelClass:
+                    selectedClass
+
+            };
+
 
             localStorage.setItem(
                 "selectedJourney",
-                JSON.stringify({
-
-                    from,
-
-                    to,
-
-                    journeyDate: date,
-
-                    returnDate:
-                        returnDate.value,
-
-                    tripType,
-
-                    passengers:
-                        passengerCount,
-
-                    travelClass:
-                        selectedClass
-
-                })
+                JSON.stringify(
+                    journeyData
+                )
             );
 
 
-            // Generate trains
+            // ---------------------------------------------
+            // GET TRAINS
+            // ---------------------------------------------
 
             const results =
                 getTrains(
@@ -424,6 +604,7 @@ export function showSearch(app) {
 
                 fare:
                     550
+
             },
 
 
@@ -454,6 +635,7 @@ export function showSearch(app) {
 
                 fare:
                     480
+
             },
 
 
@@ -484,6 +666,7 @@ export function showSearch(app) {
 
                 fare:
                     620
+
             },
 
 
@@ -514,6 +697,7 @@ export function showSearch(app) {
 
                 fare:
                     590
+
             },
 
 
@@ -544,6 +728,7 @@ export function showSearch(app) {
 
                 fare:
                     520
+
             },
 
 
@@ -574,6 +759,7 @@ export function showSearch(app) {
 
                 fare:
                     450
+
             },
 
 
@@ -604,6 +790,7 @@ export function showSearch(app) {
 
                 fare:
                     490
+
             },
 
 
@@ -634,6 +821,7 @@ export function showSearch(app) {
 
                 fare:
                     390
+
             }
 
         ];
@@ -641,8 +829,10 @@ export function showSearch(app) {
 
         return allTrains.filter(
             train =>
-                train.from === from &&
-                train.to === to
+                train.from ===
+                from &&
+                train.to ===
+                to
         );
 
     }
@@ -656,7 +846,8 @@ export function showSearch(app) {
         trains
     ) {
 
-        trainResults.innerHTML = "";
+        trainResults.innerHTML =
+            "";
 
 
         resultsHeader.classList.remove(
@@ -680,7 +871,9 @@ export function showSearch(app) {
             }`;
 
 
-        if (!trains.length) {
+        if (
+            !trains.length
+        ) {
 
             trainResults.innerHTML = `
 
@@ -707,170 +900,173 @@ export function showSearch(app) {
         }
 
 
-        trains.forEach(train => {
+        trains.forEach(
+            train => {
 
-            const card =
-                document.createElement(
-                    "article"
-                );
-
-
-            card.className =
-                "train-card";
+                const card =
+                    document.createElement(
+                        "article"
+                    );
 
 
-            card.innerHTML = `
+                card.className =
+                    "train-card";
 
-                <div class="train-top">
 
-                    <div>
+                card.innerHTML = `
 
-                        <div class="train-name">
-                            🚆 ${train.name}
+                    <div class="train-top">
+
+                        <div>
+
+                            <div class="train-name">
+                                🚆 ${escapeHTML(train.name)}
+                            </div>
+
+                            <div class="train-number">
+                                Train No. ${escapeHTML(train.number)}
+                            </div>
+
                         </div>
 
-                        <div class="train-number">
-                            Train No. ${train.number}
+                        <span class="availability">
+                            ● Available
+                        </span>
+
+                    </div>
+
+
+                    <div class="journey-row">
+
+                        <div class="time-block">
+
+                            <strong>
+                                ${escapeHTML(train.departure)}
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(train.from)}
+                            </span>
+
+                        </div>
+
+
+                        <div class="duration-block">
+
+                            <span>
+                                ${escapeHTML(train.duration)}
+                            </span>
+
+                            <div class="journey-line">
+                                ─────────────
+                            </div>
+
+                            <small>
+                                ${escapeHTML(train.type)}
+                            </small>
+
+                        </div>
+
+
+                        <div class="time-block">
+
+                            <strong>
+                                ${escapeHTML(train.arrival)}
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(train.to)}
+                            </span>
+
                         </div>
 
                     </div>
 
-                    <span class="availability">
-                        ● Available
-                    </span>
 
-                </div>
+                    <div class="train-bottom">
 
+                        <div class="fare-block">
 
-                <div class="journey-row">
+                            <span>
+                                Starting from
+                            </span>
 
-                    <div class="time-block">
+                            <strong>
+                                ₹${formatMoney(train.fare)}
+                            </strong>
 
-                        <strong>
-                            ${train.departure}
-                        </strong>
+                            <small>
+                                / passenger
+                            </small>
 
-                        <span>
-                            ${train.from}
-                        </span>
-
-                    </div>
-
-
-                    <div class="duration-block">
-
-                        <span>
-                            ${train.duration}
-                        </span>
-
-                        <div class="journey-line">
-                            ─────────────
                         </div>
 
-                        <small>
-                            ${train.type}
-                        </small>
+
+                        <div class="train-actions">
+
+                            <button
+                                class="details-btn"
+                                type="button"
+                            >
+                                View Details
+                            </button>
+
+                            <button
+                                class="select-train-btn"
+                                type="button"
+                            >
+                                Select Train →
+                            </button>
+
+                        </div>
 
                     </div>
 
-
-                    <div class="time-block">
-
-                        <strong>
-                            ${train.arrival}
-                        </strong>
-
-                        <span>
-                            ${train.to}
-                        </span>
-
-                    </div>
-
-                </div>
+                `;
 
 
-                <div class="train-bottom">
+                // VIEW DETAILS
 
-                    <div class="fare-block">
-
-                        <span>
-                            Starting from
-                        </span>
-
-                        <strong>
-                            ₹${train.fare}
-                        </strong>
-
-                        <small>
-                            / passenger
-                        </small>
-
-                    </div>
-
-
-                    <div class="train-actions">
-
-                        <button
-                            class="details-btn"
-                        >
-                            View Details
-                        </button>
-
-                        <button
-                            class="select-train-btn"
-                        >
-                            Select Train
-                            →
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-
-            // View details
-
-            card
-                .querySelector(
-                    ".details-btn"
-                )
-                .addEventListener(
-                    "click",
-                    () => {
-
-                        showDetails(
-                            train
-                        );
-
-                    }
-                );
-
-
-            // Select train
-
-            card
-                .querySelector(
-                    ".select-train-btn"
-                )
-                .addEventListener(
-                    "click",
-                    () => {
-
-                        selectTrain(
-                            train
-                        );
-
-                    }
-                );
-
-
-            trainResults.appendChild(
                 card
-            );
+                    .querySelector(
+                        ".details-btn"
+                    )
+                    .addEventListener(
+                        "click",
+                        () => {
 
-        });
+                            showDetails(
+                                train
+                            );
+
+                        }
+                    );
+
+
+                // SELECT TRAIN
+
+                card
+                    .querySelector(
+                        ".select-train-btn"
+                    )
+                    .addEventListener(
+                        "click",
+                        () => {
+
+                            selectTrain(
+                                train
+                            );
+
+                        }
+                    );
+
+
+                trainResults.appendChild(
+                    card
+                );
+
+            }
+        );
 
     }
 
@@ -885,7 +1081,9 @@ export function showSearch(app) {
 
         localStorage.setItem(
             "selectedTrain",
-            JSON.stringify(train)
+            JSON.stringify(
+                train
+            )
         );
 
 
@@ -898,7 +1096,7 @@ export function showSearch(app) {
 
 
     // =====================================================
-    // DETAILS
+    // TRAIN DETAILS
     // =====================================================
 
     function showDetails(
@@ -912,11 +1110,11 @@ export function showSearch(app) {
             </span>
 
             <h2 class="modal-title">
-                🚆 ${train.name}
+                🚆 ${escapeHTML(train.name)}
             </h2>
 
             <span class="modal-number">
-                Train No. ${train.number}
+                Train No. ${escapeHTML(train.number)}
             </span>
 
 
@@ -925,11 +1123,11 @@ export function showSearch(app) {
                 <div class="modal-station">
 
                     <strong>
-                        ${train.departure}
+                        ${escapeHTML(train.departure)}
                     </strong>
 
                     <span>
-                        ${train.from}
+                        ${escapeHTML(train.from)}
                     </span>
 
                 </div>
@@ -937,13 +1135,13 @@ export function showSearch(app) {
 
                 <div class="modal-middle">
 
-                    ${train.duration}
+                    ${escapeHTML(train.duration)}
 
                     <div class="modal-line">
                         ● ───────── ●
                     </div>
 
-                    ${train.type}
+                    ${escapeHTML(train.type)}
 
                 </div>
 
@@ -951,11 +1149,11 @@ export function showSearch(app) {
                 <div class="modal-station">
 
                     <strong>
-                        ${train.arrival}
+                        ${escapeHTML(train.arrival)}
                     </strong>
 
                     <span>
-                        ${train.to}
+                        ${escapeHTML(train.to)}
                     </span>
 
                 </div>
@@ -972,7 +1170,7 @@ export function showSearch(app) {
                     </span>
 
                     <strong>
-                        ${train.duration}
+                        ${escapeHTML(train.duration)}
                     </strong>
 
                 </div>
@@ -985,7 +1183,7 @@ export function showSearch(app) {
                     </span>
 
                     <strong>
-                        ${train.type}
+                        ${escapeHTML(train.type)}
                     </strong>
 
                 </div>
@@ -998,7 +1196,7 @@ export function showSearch(app) {
                     </span>
 
                     <strong>
-                        ₹${train.fare}
+                        ₹${formatMoney(train.fare)}
                     </strong>
 
                 </div>
@@ -1057,7 +1255,7 @@ export function showSearch(app) {
                     </span>
 
                     <strong>
-                        ₹${train.fare}
+                        ₹${formatMoney(train.fare)}
                     </strong>
 
                 </div>
@@ -1066,6 +1264,7 @@ export function showSearch(app) {
                 <button
                     class="modal-select"
                     id="modalSelectBtn"
+                    type="button"
                 >
                     Select Train →
                 </button>
@@ -1111,9 +1310,7 @@ export function showSearch(app) {
         "click",
         () => {
 
-            detailsModal.classList.add(
-                "hidden"
-            );
+            closeDetailsModal();
 
         }
     );
@@ -1125,17 +1322,27 @@ export function showSearch(app) {
 
             if (
                 event.target ===
-                detailsModal
+                detailsModal ||
+                event.target.classList.contains(
+                    "modal-overlay"
+                )
             ) {
 
-                detailsModal.classList.add(
-                    "hidden"
-                );
+                closeDetailsModal();
 
             }
 
         }
     );
+
+
+    function closeDetailsModal() {
+
+        detailsModal.classList.add(
+            "hidden"
+        );
+
+    }
 
 
     // =====================================================
@@ -1158,6 +1365,7 @@ export function showSearch(app) {
                 "selectedJourney"
             );
 
+
             navigate(
                 "login",
                 app
@@ -1171,12 +1379,47 @@ export function showSearch(app) {
     // HELPERS
     // =====================================================
 
+    function setDefaultReturnDate() {
+
+        if (
+            !journeyDate.value
+        ) {
+
+            return;
+
+        }
+
+
+        const date =
+            new Date(
+                `${journeyDate.value}T00:00:00`
+            );
+
+
+        date.setDate(
+            date.getDate() + 2
+        );
+
+
+        returnDate.min =
+            journeyDate.value;
+
+
+        returnDate.value =
+            formatDate(
+                date
+            );
+
+    }
+
+
     function formatDate(
         date
     ) {
 
         const year =
             date.getFullYear();
+
 
         const month =
             String(
@@ -1185,6 +1428,7 @@ export function showSearch(app) {
                 2,
                 "0"
             );
+
 
         const day =
             String(
@@ -1225,6 +1469,50 @@ export function showSearch(app) {
                 year: "numeric"
             }
         );
+
+    }
+
+
+    function formatMoney(
+        value
+    ) {
+
+        return Number(
+            value || 0
+        ).toLocaleString(
+            "en-IN"
+        );
+
+    }
+
+
+    function escapeHTML(
+        value
+    ) {
+
+        return String(
+            value ?? ""
+        )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
 
     }
 
