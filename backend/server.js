@@ -70,7 +70,9 @@ app.get("/", (req, res) => {
             "Train Booking Backend Running",
 
         server:
-            "http://localhost:5000"
+           // "http://localhost:5000"
+           // "https://YOUR-BACKEND.vercel.app"
+           "https://YOUR-BACKEND.vercel.app"
 
     });
 
