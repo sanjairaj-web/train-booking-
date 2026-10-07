@@ -172,7 +172,8 @@ export function showSignup(app) {
 
                 const response =
                     await fetch(
-                        "http://localhost:5000/api/auth/signup",
+                      //  "http://localhost:5000/api/auth/signup",
+                        "https://train-booking-ktigtks51-sanjairaj-1568.vercel.app/api/auth/signup",
                         {
 
                             method: "POST",
