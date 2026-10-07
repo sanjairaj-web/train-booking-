@@ -1,13 +1,28 @@
 const path = require("path");
+
 const HtmlWebpackPlugin =
     require("html-webpack-plugin");
 
 
 module.exports = {
 
+    // =========================
+    // MODE
+    // =========================
+
     mode: "development",
 
+
+    // =========================
+    // ENTRY
+    // =========================
+
     entry: "./src/index.js",
+
+
+    // =========================
+    // OUTPUT
+    // =========================
 
     output: {
 
@@ -23,15 +38,23 @@ module.exports = {
     },
 
 
+    // =========================
+    // MODULE
+    // =========================
+
     module: {
 
         rules: [
 
+            // HTML
             {
                 test: /\.html$/i,
+
                 loader: "html-loader"
             },
 
+
+            // CSS
             {
                 test: /\.css$/i,
 
@@ -39,13 +62,16 @@ module.exports = {
                     "style-loader",
                     "css-loader"
                 ]
-
             }
 
         ]
 
     },
 
+
+    // =========================
+    // PLUGINS
+    // =========================
 
     plugins: [
 
@@ -57,6 +83,10 @@ module.exports = {
 
     ],
 
+
+    // =========================
+    // DEV SERVER
+    // =========================
 
     devServer: {
 
@@ -73,7 +103,9 @@ module.exports = {
 
         open: true,
 
-        hot: true
+        hot: true,
+
+        historyApiFallback: true
 
     }
 

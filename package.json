@@ -12,7 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.6",
     "css-loader": "^7.1.5",
+    "express": "^5.2.1",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.8",
     "jspdf": "^4.2.1",

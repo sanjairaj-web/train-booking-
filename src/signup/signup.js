@@ -1,5 +1,4 @@
 import "./signup.css";
-
 import signupHTML from "./signup.html";
 
 import { navigate } from "../router.js";
@@ -7,8 +6,16 @@ import { navigate } from "../router.js";
 
 export function showSignup(app) {
 
+    // =========================
+    // LOAD SIGNUP PAGE
+    // =========================
+
     app.innerHTML = signupHTML;
 
+
+    // =========================
+    // GET ELEMENTS
+    // =========================
 
     const signupForm =
         document.getElementById("signupForm");
@@ -25,6 +32,11 @@ export function showSignup(app) {
     const confirmPasswordInput =
         document.getElementById("confirmPassword");
 
+    const togglePassword =
+        document.getElementById(
+            "toggleSignupPassword"
+        );
+
     const message =
         document.getElementById("signupMessage");
 
@@ -33,15 +45,50 @@ export function showSignup(app) {
 
 
     // =========================
+    // PASSWORD TOGGLE
+    // =========================
+
+    togglePassword.addEventListener(
+        "click",
+        () => {
+
+            if (
+                passwordInput.type === "password"
+            ) {
+
+                passwordInput.type = "text";
+
+                togglePassword.textContent =
+                    "🙈";
+
+            } else {
+
+                passwordInput.type =
+                    "password";
+
+                togglePassword.textContent =
+                    "👁";
+
+            }
+
+        }
+    );
+
+
+    // =========================
     // SIGNUP
     // =========================
 
     signupForm.addEventListener(
         "submit",
-        function (event) {
+        async (event) => {
 
             event.preventDefault();
 
+
+            // =========================
+            // GET VALUES
+            // =========================
 
             const name =
                 nameInput.value.trim();
@@ -68,7 +115,17 @@ export function showSignup(app) {
                 );
 
                 return;
+            }
 
+
+            if (!email) {
+
+                showMessage(
+                    "Enter your email.",
+                    "error"
+                );
+
+                return;
             }
 
 
@@ -80,12 +137,12 @@ export function showSignup(app) {
                 );
 
                 return;
-
             }
 
 
             if (
-                password !== confirmPassword
+                password !==
+                confirmPassword
             ) {
 
                 showMessage(
@@ -94,56 +151,135 @@ export function showSignup(app) {
                 );
 
                 return;
-
             }
 
 
             // =========================
-            // SAVE USER
+            // SHOW LOADING
             // =========================
 
-            const user = {
-
-                name,
-
-                email,
-
-                password
-
-            };
-
-
-            localStorage.setItem(
-                "trainBookingUser",
-                JSON.stringify(user)
-            );
-
-
             showMessage(
-                "Account created successfully!",
+                "Creating account...",
                 "success"
             );
 
 
-            // =========================
-            // GO TO LOGIN
-            // =========================
+            try {
 
-            setTimeout(() => {
+                // =========================
+                // CALL BACKEND API
+                // =========================
 
-                navigate(
-                    "login",
-                    app
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/auth/signup",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body: JSON.stringify({
+
+                                name: name,
+
+                                email: email,
+
+                                password: password
+
+                            })
+
+                        }
+                    );
+
+
+                // =========================
+                // READ RESPONSE
+                // =========================
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Signup API Response:",
+                    data
                 );
 
-            }, 1000);
+
+                // =========================
+                // API ERROR
+                // =========================
+
+                if (!response.ok) {
+
+                    showMessage(
+                        data.message ||
+                        "Signup failed.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // =========================
+                // SUCCESS
+                // =========================
+
+                showMessage(
+                    "Account created successfully!",
+                    "success"
+                );
+
+
+                // =========================
+                // CLEAR FORM
+                // =========================
+
+                signupForm.reset();
+
+
+                // =========================
+                // GO TO LOGIN
+                // =========================
+
+                setTimeout(() => {
+
+                    navigate(
+                        "login",
+                        app
+                    );
+
+                }, 1000);
+
+
+            } catch (error) {
+
+                console.error(
+                    "SIGNUP ERROR:",
+                    error
+                );
+
+
+                showMessage(
+                    "Unable to connect to server.",
+                    "error"
+                );
+
+            }
 
         }
     );
 
 
     // =========================
-    // LOGIN NAVIGATION
+    // GO TO LOGIN
     // =========================
 
     loginButton.addEventListener(
@@ -159,12 +295,17 @@ export function showSignup(app) {
     );
 
 
+    // =========================
+    // MESSAGE
+    // =========================
+
     function showMessage(
         text,
         type
     ) {
 
-        message.textContent = text;
+        message.textContent =
+            text;
 
         message.className =
             `message ${type}`;

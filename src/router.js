@@ -1,3 +1,4 @@
+
 import { showLogin } from "./login/login.js";
 import { showSearch } from "./search/search.js";
 import { showSeat } from "./seat/seat.js";
@@ -16,65 +17,76 @@ export function navigate(
     switch (page) {
 
         case "login":
-
             showLogin(app);
-
             break;
 
 
         case "signup":
-
             showSignup(app);
-
             break;
 
 
         case "search":
-
             showSearch(app);
-
             break;
 
 
         case "seat":
-
             showSeat(app);
-
             break;
 
 
         case "passenger":
-
             showPassenger(app);
-
             break;
 
 
         case "payment":
-
             showPayment(app);
-
             break;
 
 
         case "ticket":
-
             showTicket(app);
-
             break;
 
 
         case "mybooking":
-
             showMyBooking(app);
-
             break;
 
 
         default:
+            showLogin(app);
+    }
+}
 
-            showSearch(app);
+
+// ==========================================
+// START APPLICATION
+// ==========================================
+
+export function startRouter(app) {
+
+    const isLoggedIn =
+        localStorage.getItem("isLoggedIn");
+
+
+    if (isLoggedIn === "true") {
+
+        navigate(
+            "search",
+            app
+        );
+
+    } else {
+
+        navigate(
+            "login",
+            app
+        );
 
     }
 
 }
+

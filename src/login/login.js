@@ -6,7 +6,10 @@ import { navigate } from "../router.js";
 
 export function showLogin(app) {
 
-    // Load login page
+    // =========================
+    // LOAD LOGIN PAGE
+    // =========================
+
     app.innerHTML = loginHTML;
 
 
@@ -36,110 +39,274 @@ export function showLogin(app) {
 
 
     // =========================
-    // TOGGLE PASSWORD
+    // PASSWORD TOGGLE
     // =========================
 
-    togglePassword.addEventListener(
-        "click",
-        () => {
+    if (togglePassword) {
 
-            if (
-                passwordInput.type === "password"
-            ) {
+        togglePassword.addEventListener(
+            "click",
+            () => {
 
-                passwordInput.type = "text";
+                if (
+                    passwordInput.type ===
+                    "password"
+                ) {
 
-                togglePassword.textContent = "🙈";
+                    passwordInput.type =
+                        "text";
 
-            } else {
+                    togglePassword.textContent =
+                        "🙈";
 
-                passwordInput.type = "password";
+                } else {
 
-                togglePassword.textContent = "👁";
+                    passwordInput.type =
+                        "password";
+
+                    togglePassword.textContent =
+                        "👁";
+
+                }
 
             }
+        );
 
-        }
-    );
+    }
 
 
     // =========================
-    // LOGIN
+    // LOGIN FORM
     // =========================
 
     loginForm.addEventListener(
         "submit",
-        (event) => {
+        async (event) => {
 
             event.preventDefault();
 
+
+            // =========================
+            // GET VALUES
+            // =========================
 
             const email =
                 emailInput.value.trim();
 
             const password =
-                passwordInput.value.trim();
+                passwordInput.value;
 
 
-            // Get registered user
-            const storedUser =
-                localStorage.getItem(
-                    "trainBookingUser"
-                );
+            // =========================
+            // VALIDATION
+            // =========================
 
-
-            if (!storedUser) {
+            if (!email || !password) {
 
                 showMessage(
-                    "No account found. Please sign up first.",
+                    "Please enter email and password.",
                     "error"
                 );
 
                 return;
+
             }
 
 
-            const user =
-                JSON.parse(storedUser);
+            // Email validation
 
-
-            // Check credentials
             if (
-                email === user.email &&
-                password === user.password
+                !email.includes("@") ||
+                !email.includes(".")
             ) {
+
+                showMessage(
+                    "Please enter a valid email.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            // =========================
+            // LOADING
+            // =========================
+
+            showMessage(
+                "Logging in...",
+                "success"
+            );
+
+
+            const loginButton =
+                loginForm.querySelector(
+                    'button[type="submit"]'
+                );
+
+
+            if (loginButton) {
+
+                loginButton.disabled = true;
+
+                loginButton.textContent =
+                    "Logging in...";
+
+            }
+
+
+            try {
+
+                // =========================
+                // CALL LOGIN API
+                // =========================
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/auth/login",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body: JSON.stringify({
+
+                                email: email,
+
+                                password: password
+
+                            })
+
+                        }
+                    );
+
+
+                // =========================
+                // READ API RESPONSE
+                // =========================
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Login API Response:",
+                    data
+                );
+
+
+                // =========================
+                // LOGIN FAILED
+                // =========================
+
+                if (!response.ok) {
+
+                    showMessage(
+                        data.message ||
+                        "Invalid email or password.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                // =========================
+                // CHECK USER
+                // =========================
+
+                if (!data.user) {
+
+                    showMessage(
+                        "Login response is invalid.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                // =========================
+                // SAVE LOGIN STATE
+                // =========================
 
                 localStorage.setItem(
                     "isLoggedIn",
                     "true"
                 );
 
+
                 localStorage.setItem(
                     "loggedInUser",
-                    JSON.stringify(user)
+                    JSON.stringify(
+                        data.user
+                    )
                 );
 
 
+                // =========================
+                // SUCCESS MESSAGE
+                // =========================
+
                 showMessage(
-                    `Welcome back, ${user.name}!`,
+                    `Welcome back, ${data.user.name}!`,
                     "success"
                 );
 
 
-                // Temporary next page
+                // =========================
+                // GO TO SEARCH
+                // =========================
+
                 setTimeout(() => {
 
-                    navigate("search", app);
+                    navigate(
+                        "search",
+                        app
+                    );
+
+                }, 700);
 
 
-                }, 500);
+            } catch (error) {
 
-            } else {
+                console.error(
+                    "LOGIN ERROR:",
+                    error
+                );
+
 
                 showMessage(
-                    "Invalid email or password.",
+                    "Unable to connect to server. Please start the backend server.",
                     "error"
                 );
+
+            }
+
+            finally {
+
+                // =========================
+                // ENABLE LOGIN BUTTON
+                // =========================
+
+                if (loginButton) {
+
+                    loginButton.disabled =
+                        false;
+
+                    loginButton.textContent =
+                        "Login";
+
+                }
 
             }
 
@@ -151,18 +318,21 @@ export function showLogin(app) {
     // GO TO SIGNUP
     // =========================
 
-    signupButton.addEventListener(
-        "click",
-        () => {
-             navigate(
-                "signup",
-                app
-            );
+    if (signupButton) {
 
-           // showSignup(app);
+        signupButton.addEventListener(
+            "click",
+            () => {
 
-        }
-    );
+                navigate(
+                    "signup",
+                    app
+                );
+
+            }
+        );
+
+    }
 
 
     // =========================
@@ -174,7 +344,8 @@ export function showLogin(app) {
         type
     ) {
 
-        message.textContent = text;
+        message.textContent =
+            text;
 
         message.className =
             `message ${type}`;

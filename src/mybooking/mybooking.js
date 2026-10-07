@@ -33,173 +33,343 @@ export function showMyBooking(app) {
     // BACK TO SEARCH
     // =====================================================
 
-    backBtn.addEventListener(
-        "click",
-        () => {
+    if (backBtn) {
 
-            navigate(
-                "search",
-                app
+        backBtn.addEventListener(
+            "click",
+            () => {
+
+                navigate(
+                    "search",
+                    app
+                );
+
+            }
+        );
+
+    }
+
+
+    // =====================================================
+    // LOAD BOOKINGS
+    // =====================================================
+
+    loadBookings(
+        bookingList,
+        app
+    );
+
+}
+
+
+// ==========================================================
+// LOAD BOOKINGS FROM BACKEND
+// ==========================================================
+
+async function loadBookings(
+    container,
+    app
+) {
+
+    // Loading UI
+
+    container.innerHTML = `
+
+        <div class="loading-bookings">
+
+            <div class="loading-icon">
+                🎫
+            </div>
+
+            <h2>
+                Loading your bookings...
+            </h2>
+
+            <p>
+                Please wait.
+            </p>
+
+        </div>
+
+    `;
+
+
+    try {
+
+        // ==================================================
+        // GET LOGGED-IN USER
+        // ==================================================
+
+        const loggedInUser =
+            getStorageObject(
+                "loggedInUser"
+            );
+
+
+        let url =
+            "http://localhost:5000/api/bookings";
+
+
+        // ==================================================
+        // USER-SPECIFIC BOOKINGS
+        // ==================================================
+
+        if (
+            loggedInUser &&
+            loggedInUser.id
+        ) {
+
+            url =
+                `http://localhost:5000/api/bookings/user/${loggedInUser.id}`;
+
+        }
+
+
+        // ==================================================
+        // API CALL
+        // ==================================================
+
+        const response =
+            await fetch(
+                url
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Bookings API Response:",
+            data
+        );
+
+
+        // ==================================================
+        // API ERROR
+        // ==================================================
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load bookings"
             );
 
         }
-    );
 
 
-    // =====================================================
-    // LOAD DATA
-    // =====================================================
+        // ==================================================
+        // NO BOOKINGS
+        // ==================================================
+
+        if (
+            !data.bookings ||
+            data.bookings.length === 0
+        ) {
+
+            renderEmpty(
+                container,
+                app
+            );
+
+            return;
+
+        }
+
+
+        // ==================================================
+        // RENDER BOOKINGS
+        // ==================================================
+
+        renderBookings(
+            container,
+            app,
+            data.bookings
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "MY BOOKING ERROR:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="empty-bookings">
+
+                <div class="empty-icon">
+                    ⚠️
+                </div>
+
+                <h2>
+                    Unable to load bookings
+                </h2>
+
+                <p>
+                    Please make sure the backend
+                    server is running.
+                </p>
+
+                <button
+                    id="retryBookingBtn"
+                    class="primary-btn"
+                >
+                    Try Again
+                </button>
+
+            </div>
+
+        `;
+
+
+        const retryButton =
+            document.getElementById(
+                "retryBookingBtn"
+            );
+
+
+        if (retryButton) {
+
+            retryButton.addEventListener(
+                "click",
+                () => {
+
+                    loadBookings(
+                        container,
+                        app
+                    );
+
+                }
+            );
+
+        }
+
+    }
+
+}
+
+
+// ==========================================================
+// RENDER ALL BOOKINGS
+// ==========================================================
+
+function renderBookings(
+    container,
+    app,
+    bookings
+) {
+
+    container.innerHTML = "";
+
+
+    bookings
+        .slice()
+        .reverse()
+        .forEach(
+            booking => {
+
+                container.insertAdjacentHTML(
+                    "beforeend",
+                    createBookingHTML(
+                        booking
+                    )
+                );
+
+            }
+        );
+
+
+    // ======================================================
+    // VIEW TICKET BUTTONS
+    // ======================================================
+
+    document
+        .querySelectorAll(
+            ".view-ticket-btn"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const pnr =
+                            button.dataset.pnr;
+
+
+                        localStorage.setItem(
+                            "bookingPNR",
+                            pnr
+                        );
+
+
+                        navigate(
+                            "ticket",
+                            app
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+// ==========================================================
+// BOOKING CARD HTML
+// ==========================================================
+
+function createBookingHTML(
+    booking
+) {
 
     const train =
-        getStorageObject(
-            "selectedTrain"
-        ) || {};
+        booking.train ||
+        {};
 
 
     const journey =
-        getStorageObject(
-            "selectedJourney"
-        ) || {};
+        booking.journey ||
+        {};
 
 
     const passenger =
-        getStorageObject(
-            "passengerDetails"
-        ) ||
-        getStorageObject(
-            "passenger"
-        ) ||
+        booking.passenger ||
         {};
 
 
     const payment =
-        getStorageObject(
-            "paymentDetails"
-        ) ||
-        getStorageObject(
-            "payment"
-        ) ||
+        booking.payment ||
         {};
 
 
     const seats =
-        getStorageArray(
-            "selectedSeats"
-        );
+        Array.isArray(
+            booking.seats
+        )
+            ? booking.seats
+            : [];
 
 
     const coach =
-        localStorage.getItem(
-            "selectedCoach"
-        ) ||
-        localStorage.getItem(
-            "coach"
-        ) ||
+        booking.coach ||
         "S1";
 
 
-    const pnr =
-        localStorage.getItem(
-            "bookingPNR"
-        );
-
-
-    // =====================================================
-    // CHECK BOOKING
-    // =====================================================
-
-    if (
-        !train.name &&
-        !pnr
-    ) {
-
-        renderEmpty(
-            bookingList,
-            app
-        );
-
-        return;
-
-    }
-
-
-    // =====================================================
-    // FARE
-    // =====================================================
-
-    const seatCount =
-        Math.max(
-            seats.length,
-            Number(
-                journey.passengers || 1
-            )
-        );
-
-
-    const baseFare =
+    const total =
         Number(
-            payment.baseFare ??
-            payment.base ??
-            train.fare ??
-            0
-        ) *
-        seatCount;
-
-
-    const convenienceFee =
-        Number(
-            payment.convenienceFee ??
-            payment.convenience ??
+            payment.total ||
+            payment.amount ||
             0
         );
-
-
-    const gst =
-        Number(
-            payment.gst ??
-            payment.tax ??
-            0
-        );
-
-
-    let totalFare =
-        Number(
-            payment.total ??
-            payment.amount ??
-            0
-        );
-
-
-    if (!totalFare) {
-
-        const savedTotal =
-            Number(
-                localStorage.getItem(
-                    "totalFare"
-                ) || 0
-            );
-
-
-        totalFare =
-            savedTotal ||
-            (
-                baseFare +
-                convenienceFee +
-                gst
-            );
-
-    }
-
-
-    // =====================================================
-    // TRANSACTION
-    // =====================================================
-
-    const transactionId =
-        payment.transactionId ||
-        payment.transactionID ||
-        payment.txnId ||
-        "-";
 
 
     const paymentMethod =
@@ -208,18 +378,14 @@ export function showMyBooking(app) {
         "UPI";
 
 
-    // =====================================================
-    // RENDER
-    // =====================================================
-
-    bookingList.innerHTML = `
+    return `
 
         <article class="booking-card">
 
 
-            <!-- ==========================================
-                 BOOKING HEADER
-            =========================================== -->
+            <!-- ======================================
+                 HEADER
+            ======================================= -->
 
             <div class="booking-top">
 
@@ -237,11 +403,13 @@ export function showMyBooking(app) {
                     </h2>
 
                     <div class="train-number">
+
                         Train No.
                         ${escapeHTML(
                             train.number ||
                             "-"
                         )}
+
                     </div>
 
                 </div>
@@ -253,16 +421,19 @@ export function showMyBooking(app) {
                         ●
                     </span>
 
-                    Confirmed
+                    ${escapeHTML(
+                        booking.status ||
+                        "CONFIRMED"
+                    )}
 
                 </div>
 
             </div>
 
 
-            <!-- ==========================================
+            <!-- ======================================
                  PNR
-            =========================================== -->
+            ======================================= -->
 
             <div class="pnr-section">
 
@@ -274,21 +445,24 @@ export function showMyBooking(app) {
 
                     <strong>
                         ${escapeHTML(
-                            pnr || "-"
+                            booking.pnr ||
+                            "-"
                         )}
                     </strong>
 
                 </div>
 
 
-                <div class="pnr-item booking-date">
+                <div class="pnr-item">
 
                     <span>
                         BOOKED ON
                     </span>
 
                     <strong>
-                        ${formatToday()}
+                        ${formatBookedDate(
+                            booking.bookedAt
+                        )}
                     </strong>
 
                 </div>
@@ -296,9 +470,9 @@ export function showMyBooking(app) {
             </div>
 
 
-            <!-- ==========================================
-                 TRAIN JOURNEY
-            =========================================== -->
+            <!-- ======================================
+                 JOURNEY
+            ======================================= -->
 
             <section class="booking-section">
 
@@ -408,9 +582,9 @@ export function showMyBooking(app) {
             </section>
 
 
-            <!-- ==========================================
-                 PASSENGER DETAILS
-            =========================================== -->
+            <!-- ======================================
+                 PASSENGER
+            ======================================= -->
 
             <section class="booking-section">
 
@@ -489,7 +663,6 @@ export function showMyBooking(app) {
                             ${escapeHTML(
                                 passenger.mobile ||
                                 passenger.phone ||
-                                passenger.phoneNumber ||
                                 "-"
                             )}
                         </strong>
@@ -501,9 +674,9 @@ export function showMyBooking(app) {
             </section>
 
 
-            <!-- ==========================================
-                 SEAT DETAILS
-            =========================================== -->
+            <!-- ======================================
+                 SEAT
+            ======================================= -->
 
             <section class="booking-section">
 
@@ -576,9 +749,9 @@ export function showMyBooking(app) {
             </section>
 
 
-            <!-- ==========================================
-                 PAYMENT DETAILS
-            =========================================== -->
+            <!-- ======================================
+                 PAYMENT
+            ======================================= -->
 
             <section class="booking-section">
 
@@ -600,57 +773,12 @@ export function showMyBooking(app) {
                     <div class="fare-row">
 
                         <span>
-                            Base Fare
-                        </span>
-
-                        <strong>
-                            ₹${formatMoney(
-                                baseFare
-                            )}
-                        </strong>
-
-                    </div>
-
-
-                    <div class="fare-row">
-
-                        <span>
-                            Convenience Fee
-                        </span>
-
-                        <strong>
-                            ₹${formatMoney(
-                                convenienceFee
-                            )}
-                        </strong>
-
-                    </div>
-
-
-                    <div class="fare-row">
-
-                        <span>
-                            GST
-                        </span>
-
-                        <strong>
-                            ₹${formatMoney(
-                                gst
-                            )}
-                        </strong>
-
-                    </div>
-
-
-                    <div class="fare-row fare-total">
-
-                        <span>
                             Total Paid
                         </span>
 
                         <strong>
                             ₹${formatMoney(
-                                totalFare
+                                total
                             )}
                         </strong>
 
@@ -667,7 +795,9 @@ export function showMyBooking(app) {
 
                     <strong>
                         ${escapeHTML(
-                            transactionId
+                            payment.transactionId ||
+                            payment.transactionID ||
+                            "-"
                         )}
                     </strong>
 
@@ -689,25 +819,29 @@ export function showMyBooking(app) {
             </section>
 
 
-            <!-- ==========================================
+            <!-- ======================================
                  ACTIONS
-            =========================================== -->
+            ======================================= -->
 
             <div class="booking-actions">
 
                 <button
-                    id="viewTicketBtn"
-                    class="secondary-btn"
+                    class="secondary-btn view-ticket-btn"
+                    data-pnr="${escapeHTML(
+                        booking.pnr
+                    )}"
                 >
                     🎫 View Ticket
                 </button>
 
 
                 <button
-                    id="downloadBtn"
-                    class="primary-btn"
+                    class="primary-btn view-ticket-btn"
+                    data-pnr="${escapeHTML(
+                        booking.pnr
+                    )}"
                 >
-                    ↓ Download Ticket
+                    🎫 Ticket
                 </button>
 
             </div>
@@ -717,53 +851,11 @@ export function showMyBooking(app) {
 
     `;
 
-
-    // =====================================================
-    // VIEW TICKET
-    // =====================================================
-
-    document
-        .getElementById(
-            "viewTicketBtn"
-        )
-        .addEventListener(
-            "click",
-            () => {
-
-                navigate(
-                    "ticket",
-                    app
-                );
-
-            }
-        );
-
-
-    // =====================================================
-    // DOWNLOAD TICKET
-    // =====================================================
-
-    document
-        .getElementById(
-            "downloadBtn"
-        )
-        .addEventListener(
-            "click",
-            () => {
-
-                navigate(
-                    "ticket",
-                    app
-                );
-
-            }
-        );
-
 }
 
 
 // ==========================================================
-// EMPTY BOOKING
+// EMPTY BOOKINGS
 // ==========================================================
 
 function renderEmpty(
@@ -846,82 +938,11 @@ function getStorageObject(
             value
         );
 
-    } catch (error) {
-
-        console.error(
-            `Unable to read ${key}`,
-            error
-        );
-
-        return null;
-
     }
 
-}
+    catch {
 
-
-// ==========================================================
-// STORAGE ARRAY
-// ==========================================================
-
-function getStorageArray(
-    key
-) {
-
-    try {
-
-        const value =
-            localStorage.getItem(
-                key
-            );
-
-
-        if (!value) {
-
-            return [];
-
-        }
-
-
-        const parsed =
-            JSON.parse(
-                value
-            );
-
-
-        if (
-            Array.isArray(parsed)
-        ) {
-
-            return parsed;
-
-        }
-
-
-        return [parsed];
-
-    } catch {
-
-        const value =
-            localStorage.getItem(
-                key
-            );
-
-
-        if (!value) {
-
-            return [];
-
-        }
-
-
-        return value
-            .split(",")
-            .map(
-                item =>
-                    item.trim()
-            )
-            .filter(Boolean);
+        return null;
 
     }
 
@@ -973,20 +994,43 @@ function formatDate(
 
 
 // ==========================================================
-// TODAY
+// BOOKED DATE
 // ==========================================================
 
-function formatToday() {
+function formatBookedDate(
+    value
+) {
 
-    return new Date()
-        .toLocaleDateString(
-            "en-IN",
-            {
-                day: "numeric",
-                month: "short",
-                year: "numeric"
-            }
-        );
+    if (!value) {
+
+        return "-";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "-";
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        }
+    );
 
 }
 
@@ -1016,13 +1060,22 @@ function formatPaymentMethod(
     method
 ) {
 
+    const key =
+        String(
+            method || ""
+        )
+        .toLowerCase()
+        .replace(
+            /[\s_-]/g,
+            ""
+        );
+
+
     const methods = {
 
-        upi:
-            "UPI",
+        upi: "UPI",
 
-        card:
-            "Card",
+        card: "Card",
 
         creditcard:
             "Credit Card",
@@ -1037,17 +1090,6 @@ function formatPaymentMethod(
             "Wallet"
 
     };
-
-
-    const key =
-        String(
-            method || ""
-        )
-        .toLowerCase()
-        .replace(
-            /[\s_-]/g,
-            ""
-        );
 
 
     return (
